@@ -262,15 +262,8 @@ function initQuestionStructures() {
   });
 }
 
-// Calculate score for a single question based on chosen response and institute key
-function calculateQuestionScore(q, userResp, correctAns) {
-  if (!userResp || userResp.trim() === '' || userResp === '--') {
-    return { score: 0, status: 'unattempted' };
-  }
-
-  const cleanResp = userResp.trim().toUpperCase();
-  const cleanCorrect = correctAns.trim().toUpperCase();
-
+// Calculate score for a single question based on chosen response and a single key
+function calculateSingleKeyScore(q, cleanResp, cleanCorrect) {
   // 1. Single Correct MCQ (SCQ) or Matching list
   if (q.type === Q_TYPES.SCQ || q.type === Q_TYPES.MATCH) {
     if (cleanResp === cleanCorrect) {
@@ -282,10 +275,7 @@ function calculateQuestionScore(q, userResp, correctAns) {
 
   // 2. Numerical Answer Type (NAT) or Paragraph numerical
   if (q.type === Q_TYPES.NAT || q.type === Q_TYPES.PARA) {
-    // Standard numerical check (allows range comparison if key has "to" or "or")
     const isRange = cleanCorrect.includes('TO');
-    const isOr = cleanCorrect.includes('OR');
-
     const uNum = parseFloat(cleanResp);
 
     if (isNaN(uNum)) {
@@ -297,11 +287,6 @@ function calculateQuestionScore(q, userResp, correctAns) {
       const min = parseFloat(parts[0]);
       const max = parseFloat(parts[1]);
       if (!isNaN(min) && !isNaN(max) && uNum >= min && uNum <= max) {
-        return { score: 4, status: 'correct' };
-      }
-    } else if (isOr) {
-      const options = cleanCorrect.split('OR').map(x => parseFloat(x.trim()));
-      if (options.includes(uNum)) {
         return { score: 4, status: 'correct' };
       }
     } else {
@@ -367,6 +352,32 @@ function calculateQuestionScore(q, userResp, correctAns) {
   }
 
   return { score: 0, status: 'unattempted' };
+}
+
+// Calculate score for a single question based on chosen response and institute key (supporting alternative keys)
+function calculateQuestionScore(q, userResp, correctAns) {
+  if (!userResp || userResp.trim() === '' || userResp === '--') {
+    return { score: 0, status: 'unattempted' };
+  }
+
+  const cleanResp = userResp.trim().toUpperCase();
+  const cleanCorrect = correctAns.trim().toUpperCase();
+
+  // If the answer key specifies multiple alternative correct options using "OR"
+  if (cleanCorrect.includes('OR')) {
+    const alts = cleanCorrect.split('OR').map(x => x.trim());
+    let bestResult = null;
+    
+    for (let alt of alts) {
+      const res = calculateSingleKeyScore(q, cleanResp, alt);
+      if (!bestResult || res.score > bestResult.score) {
+        bestResult = res;
+      }
+    }
+    return bestResult;
+  }
+
+  return calculateSingleKeyScore(q, cleanResp, cleanCorrect);
 }
 
 // Calculate scores for everything in active state
