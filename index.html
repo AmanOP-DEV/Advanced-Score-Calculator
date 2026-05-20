@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JEE Advanced 2026 Score Checker & Calculator</title>
+  <meta name="description" content="An advanced, premium score calculator for JEE Advanced 2026. Parse candidate response sheets and compare answers side-by-side across Allen, Motion, Resonance, and PW.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- Header -->
+    <header class="glass-panel" style="padding: 1.25rem 2rem; margin-bottom: 2rem;">
+      <div class="logo-container">
+        <div class="logo-icon">JA</div>
+        <div class="logo-text">
+          <h1>JEE Advanced 2026</h1>
+          <p>Unofficial Score Checker & Key Analyzer</p>
+        </div>
+      </div>
+      <div class="control-group">
+        <div style="display: flex; flex-direction: column; align-items: flex-end;">
+          <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;">ACTIVE GRADING KEY</span>
+          <div class="select-wrapper" style="margin-top: 0.25rem;">
+            <select id="institute-select" onchange="changeInstitute(this.value)">
+              <option value="allen">Allen Kota Key</option>
+              <option value="motion">Motion Education Key</option>
+              <option value="resonance">Resonance Key</option>
+              <option value="pw">Physics Wallah Key</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Dashboard Grid -->
+    <div class="dashboard-grid">
+      
+      <!-- Huge Score Panel -->
+      <div class="glass-panel score-hero-card">
+        <div class="hero-stats-header">
+          <div class="hero-title">Predicted Aggregate Score</div>
+          <div class="total-score-display">
+            <span class="huge-score" id="total-score">0</span>
+            <span class="max-score">/ 360</span>
+          </div>
+        </div>
+
+        <!-- Subject Scores -->
+        <div class="subject-cards-grid">
+          <div class="subject-mini-card physics">
+            <span class="subj-name">Physics</span>
+            <div class="subj-score-display">
+              <span class="subj-score-num" id="phy-score">0</span>
+              <span class="subj-score-max">/ 120</span>
+            </div>
+            <div class="subj-details">
+              <span id="phy-attempts">0 Att</span>
+              <span id="phy-accuracy">0% Acc</span>
+            </div>
+          </div>
+          
+          <div class="subject-mini-card chem">
+            <span class="subj-name">Chemistry</span>
+            <div class="subj-score-display">
+              <span class="subj-score-num" id="chem-score">0</span>
+              <span class="subj-score-max">/ 120</span>
+            </div>
+            <div class="subj-details">
+              <span id="chem-attempts">0 Att</span>
+              <span id="chem-accuracy">0% Acc</span>
+            </div>
+          </div>
+
+          <div class="subject-mini-card math">
+            <span class="subj-name">Mathematics</span>
+            <div class="subj-score-display">
+              <span class="subj-score-num" id="math-score">0</span>
+              <span class="subj-score-max">/ 120</span>
+            </div>
+            <div class="subj-details">
+              <span id="math-attempts">0 Att</span>
+              <span id="math-accuracy">0% Acc</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Papers Breakdown -->
+        <div class="papers-breakdown">
+          <div class="paper-stat-box">
+            <h4>Paper 1</h4>
+            <div class="paper-score-val" id="p1-score-display">0 / 180</div>
+          </div>
+          <div class="paper-stat-box">
+            <h4>Paper 2</h4>
+            <div class="paper-score-val" id="p2-score-display">0 / 180</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Metrics & Accuracy -->
+      <div class="glass-panel analytics-card">
+        <div class="analytics-header">
+          <h2 style="font-size: 1.25rem; margin-bottom: 0.25rem;">Exam Performance Metrics</h2>
+          <p style="color: var(--text-muted); font-size: 0.85rem;">Based on selected institute key</p>
+        </div>
+
+        <div class="metrics-row">
+          <div class="metric-box">
+            <span class="metric-label">Total Attempted</span>
+            <span class="metric-value" id="metrics-attempted">0 / 102</span>
+          </div>
+          <div class="metric-box">
+            <span class="metric-label">Global Accuracy</span>
+            <span class="metric-value success" id="metrics-accuracy">0%</span>
+          </div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+          <div class="progress-group">
+            <div class="progress-label-row">
+              <span>Correct Questions (incl. Partial)</span>
+              <span id="label-correct-questions">0 / 102</span>
+            </div>
+            <div class="progress-bar-outer">
+              <div class="progress-bar-inner" id="bar-correct-questions" style="width: 0%; background: var(--accent-success);"></div>
+            </div>
+          </div>
+
+          <div class="progress-group">
+            <div class="progress-label-row">
+              <span>Incorrect Questions</span>
+              <span id="label-incorrect-questions">0 / 102</span>
+            </div>
+            <div class="progress-bar-outer">
+              <div class="progress-bar-inner" id="bar-incorrect-questions" style="width: 0%; background: var(--accent-danger);"></div>
+            </div>
+          </div>
+
+          <div class="progress-group">
+            <div class="progress-label-row">
+              <span>Positive vs Negative Marks Ratio</span>
+              <span id="label-marks-ratio">+0 / -0</span>
+            </div>
+            <div class="progress-bar-outer" style="position: relative;">
+              <div class="progress-bar-inner" id="bar-positive-marks" style="width: 0%; background: var(--accent-primary); border-radius: 99px 0 0 99px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Response Sheet Parser Panel -->
+    <div class="glass-panel parser-section">
+      <div class="parser-header">
+        <div class="parser-title">
+          <span>Response Sheet Fast Parser</span>
+          <span class="parser-badge">Beta</span>
+        </div>
+        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+          <input type="file" id="file-upload" accept=".html,.txt" onchange="handleFileUpload(this.files)" style="display: none;" />
+          <button class="btn btn-secondary" onclick="document.getElementById('file-upload').click()">📁 Upload .html / .txt</button>
+          <button class="btn btn-secondary" onclick="simulateUserAttempt()">Simulate Demo Attempt</button>
+          <button class="btn btn-accent" onclick="clearUserResponses()">Reset All</button>
+        </div>
+      </div>
+      <p class="parser-instructions">
+        <strong>How it works:</strong> When you get your response sheet tomorrow, open the page, press <kbd>Ctrl+A</kbd> then <kbd>Ctrl+C</kbd> to copy everything, then paste it in the box below and click <strong>"Parse & Calculate Score"</strong>. The engine will instantly extract your Chosen Options and Question IDs!
+      </p>
+      <textarea id="parser-textarea" class="parser-textarea" placeholder="Paste response sheet HTML or text copy here... (Or click 'Simulate Demo Attempt' above to test with dummy responses!)"></textarea>
+      
+      <div class="parser-actions">
+        <span style="font-size: 0.85rem; color: var(--text-muted);" id="parser-status">Ready to parse response sheets.</span>
+        <button class="btn btn-primary" onclick="triggerParse()">Parse & Calculate Score</button>
+      </div>
+    </div>
+
+    <!-- Main Workspace -->
+    <div class="workspace-tabs">
+      <button class="tab-btn active" id="paper1-tab" onclick="changePaper(1)">Paper 1 (48 Qs)</button>
+      <button class="tab-btn" id="paper2-tab" onclick="changePaper(2)">Paper 2 (54 Qs)</button>
+    </div>
+
+    <!-- Subject Filters and View Controls -->
+    <div class="subject-nav-row">
+      <div class="subject-tabs">
+        <button class="sub-tab-btn active physics" id="subj-physics" onclick="changeSubject('physics')">Physics</button>
+        <button class="sub-tab-btn chem" id="subj-chemistry" onclick="changeSubject('chemistry')">Chemistry</button>
+        <button class="sub-tab-btn math" id="subj-math" onclick="changeSubject('math')">Mathematics</button>
+      </div>
+      
+      <div style="font-size: 0.85rem; color: var(--text-secondary); background: rgba(255,255,255,0.03); padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--glass-border);">
+        Subject marks in <span id="current-paper-label">Paper 1</span>: <strong style="color: var(--accent-primary);" id="subject-marks-box">0 / 60</strong>
+      </div>
+    </div>
+
+    <!-- Questions Workspace Grid -->
+    <div class="glass-panel questions-workspace">
+      <div class="question-grid" id="questions-container">
+        <!-- Rendered dynamically by JavaScript -->
+      </div>
+    </div>
+
+    <!-- Discrepancy Matrix -->
+    <div class="glass-panel discrepancy-card">
+      <div class="discrepancy-header">
+        <h2 style="font-size: 1.25rem;">Coaching Institute Discrepancy Matrix</h2>
+        <span style="font-size: 0.75rem; background: rgba(251, 191, 36, 0.15); border: 1px solid rgba(251, 191, 36, 0.3); color: var(--accent-warning); padding: 0.25rem 0.6rem; border-radius: 6px; font-weight: 600;">HIGHLIGHTING KEY AMBIGUITIES</span>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+        These are questions where Allen, Motion, Resonance, or PW disagree on the correct answer key. Click on any row to toggle and test how their score difference impacts your aggregate marks.
+      </p>
+      <div class="disc-list" id="discrepancy-list-container">
+        <!-- Dynamic list of discrepancies -->
+      </div>
+    </div>
+
+    <!-- Bulk Key Editor -->
+    <div class="glass-panel quick-key-editor">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h2 style="font-size: 1.25rem;">Key Fine-Tuning Grid</h2>
+        <span style="font-size: 0.75rem; color: var(--text-muted);">Tweak institute answers manually</span>
+      </div>
+      <p style="font-size: 0.85rem; color: var(--text-secondary);">
+        Select an institute above, and edit their key answers directly. The calculator will recalculate all metrics in real-time as you type or change options.
+      </p>
+      <div class="grid-key-editor" id="key-editor-grid">
+        <!-- Dynamic input items -->
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>JEE Advanced 2026 Unofficial Score Checker • Crafted with premium analytics for engineering aspirants.</p>
+      <p style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--text-muted);">Disclaimer: This is an unofficial tool. Aggregate rankings depend on final keys released by IIT Roorkee on May 25, 2026.</p>
+    </footer>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="app.js"></script>
+  <script>
+    // UI Logic & DOM Interactions
+
+    function updateUI() {
+      // 1. Render Questions Grid for active Paper & Subject
+      renderQuestions();
+
+      // 2. Compute Active Paper details
+      const paperTotals = computeAllScores();
+      const cumulativeTotals = computeCumulativeScores();
+
+      // 3. Update dashboard aggregate figures
+      document.getElementById('total-score').innerText = cumulativeTotals.score;
+      document.getElementById('p1-score-display').innerText = `${cumulativeTotals.paper1} / 180`;
+      document.getElementById('p2-score-display').innerText = `${cumulativeTotals.paper2} / 180`;
+
+      // Update Subject break-downs
+      document.getElementById('phy-score').innerText = cumulativeTotals.physics;
+      document.getElementById('chem-score').innerText = cumulativeTotals.chemistry;
+      document.getElementById('math-score').innerText = cumulativeTotals.math;
+
+      // Calculate subject attempts & accuracy
+      const paperKey = state.activePaper === 1 ? 'paper1' : 'paper2';
+      const qList = state.questionData[paperKey];
+
+      // Physics
+      const phyQs = state.questionData.paper1.filter(q => q.subject === 'physics').concat(state.questionData.paper2.filter(q => q.subject === 'physics'));
+      const phyAtt = phyQs.filter(q => state.userResponses[q.num > 16 && q.num <= 18 ? 'paper2' : (q.id.startsWith('8') ? 'paper1' : 'paper2')][q.num] && state.userResponses[q.id.startsWith('8') ? 'paper1' : 'paper2'][q.num] !== '--').length;
+      document.getElementById('phy-attempts').innerText = `${phyAtt} Att`;
+      document.getElementById('phy-accuracy').innerText = phyAtt > 0 ? `${Math.round((phyQs.filter(q => q.currentStatus === 'correct' || q.currentStatus === 'partial').length / phyQs.filter(q => q.currentStatus && q.currentStatus !== 'unattempted').length) * 100 || 0)}% Acc` : '0% Acc';
+
+      // Chemistry
+      const chemQs = state.questionData.paper1.filter(q => q.subject === 'chemistry').concat(state.questionData.paper2.filter(q => q.subject === 'chemistry'));
+      const chemAtt = chemQs.filter(q => state.userResponses[q.id.startsWith('8') ? 'paper1' : 'paper2'][q.num] && state.userResponses[q.id.startsWith('8') ? 'paper1' : 'paper2'][q.num] !== '--').length;
+      document.getElementById('chem-attempts').innerText = `${chemAtt} Att`;
+      document.getElementById('chem-accuracy').innerText = chemAtt > 0 ? `${Math.round((chemQs.filter(q => q.currentStatus === 'correct' || q.currentStatus === 'partial').length / chemQs.filter(q => q.currentStatus && q.currentStatus !== 'unattempted').length) * 100 || 0)}% Acc` : '0% Acc';
+
+      // Math
+      const mathQs = state.questionData.paper1.filter(q => q.subject === 'math').concat(state.questionData.paper2.filter(q => q.subject === 'math'));
+      const mathAtt = mathQs.filter(q => state.userResponses[q.id.startsWith('8') ? 'paper1' : 'paper2'][q.num] && state.userResponses[q.id.startsWith('8') ? 'paper1' : 'paper2'][q.num] !== '--').length;
+      document.getElementById('math-attempts').innerText = `${mathAtt} Att`;
+      document.getElementById('math-accuracy').innerText = mathAtt > 0 ? `${Math.round((mathQs.filter(q => q.currentStatus === 'correct' || q.currentStatus === 'partial').length / mathQs.filter(q => q.currentStatus && q.currentStatus !== 'unattempted').length) * 100 || 0)}% Acc` : '0% Acc';
+
+      // 4. Update secondary active labels
+      const activePaperLabel = state.activePaper === 1 ? 'Paper 1' : 'Paper 2';
+      document.getElementById('current-paper-label').innerText = activePaperLabel;
+
+      let subMarks = 0;
+      if (state.activeSubject === 'physics') subMarks = paperTotals.physicsScore;
+      if (state.activeSubject === 'chemistry') subMarks = paperTotals.chemScore;
+      if (state.activeSubject === 'math') subMarks = paperTotals.mathScore;
+      document.getElementById('subject-marks-box').innerText = `${subMarks} / 60`;
+
+      // 5. Update Quick Metrics Card
+      document.getElementById('metrics-attempted').innerText = `${cumulativeTotals.attempted} / 102`;
+      const globalAcc = cumulativeTotals.attempted > 0 ? Math.round((cumulativeTotals.correct / cumulativeTotals.attempted) * 100) : 0;
+      document.getElementById('metrics-accuracy').innerText = `${globalAcc}%`;
+
+      document.getElementById('label-correct-questions').innerText = `${cumulativeTotals.correct} / 102`;
+      document.getElementById('bar-correct-questions').style.width = `${(cumulativeTotals.correct / 102) * 100}%`;
+
+      document.getElementById('label-incorrect-questions').innerText = `${cumulativeTotals.incorrect} / 102`;
+      document.getElementById('bar-incorrect-questions').style.width = `${(cumulativeTotals.incorrect / 102) * 100}%`;
+
+      // Pos vs Neg ratio bar calculation
+      const posMarks = paperTotals.positiveMarks;
+      const negMarks = paperTotals.negativeMarks;
+      document.getElementById('label-marks-ratio').innerText = `+${posMarks} / -${negMarks}`;
+      const totalMarksRatio = posMarks + negMarks;
+      document.getElementById('bar-positive-marks').style.width = totalMarksRatio > 0 ? `${(posMarks / totalMarksRatio) * 100}%` : '0%';
+
+      // 6. Render Discrepancies Matrix
+      renderDiscrepancies();
+
+      // 7. Render Bulk Editor
+      renderBulkKeyEditor();
+      
+      // Save state to keep values persisted
+      saveStateToLocalStorage();
+    }
+
+    function renderQuestions() {
+      const container = document.getElementById('questions-container');
+      container.innerHTML = '';
+
+      const paperKey = state.activePaper === 1 ? 'paper1' : 'paper2';
+      const questions = state.questionData[paperKey].filter(q => q.subject === state.activeSubject);
+      const activeKey = state.instituteKeys[paperKey][state.activeInstitute];
+      const userRespMap = state.userResponses[paperKey];
+
+      // Group questions by SectionLabel
+      const sections = {};
+      questions.forEach(q => {
+        if (!sections[q.sectionLabel]) sections[q.sectionLabel] = [];
+        sections[q.sectionLabel].push(q);
+      });
+
+      Object.keys(sections).forEach(label => {
+        // Render section divider
+        const div = document.createElement('div');
+        div.className = 'section-divider';
+        div.innerHTML = `<h3>${label}</h3> <span class="section-marking-badge">${sections[label][0].marksLabel}</span>`;
+        container.appendChild(div);
+
+        // Render each question card
+        sections[label].forEach(q => {
+          const userResp = userRespMap[q.num] || '--';
+          const correctAns = activeKey[q.num] || '';
+          
+          const card = document.createElement('div');
+          card.className = 'question-card';
+
+          // Score details
+          const score = q.currentScore !== undefined ? q.currentScore : 0;
+          const status = q.currentStatus || 'unattempted';
+          let scoreClass = 'neutral';
+          if (status === 'correct' || status === 'partial') scoreClass = 'positive';
+          if (status === 'incorrect') scoreClass = 'negative';
+
+          const scoreHtml = `
+            <div class="q-score-box">
+              <span class="q-score-num ${scoreClass}">${score > 0 ? '+' + score : score}</span>
+              <span class="q-status-text">${status.toUpperCase()}</span>
+            </div>
+          `;
+
+          // Options Selector (depending on QType)
+          let selectorHtml = '';
+          if (q.type === Q_TYPES.SCQ || q.type === Q_TYPES.MATCH) {
+            selectorHtml = `
+              <div class="options-selector-container">
+                ${['A', 'B', 'C', 'D'].map(opt => {
+                  const isSel = userResp === opt;
+                  return `<button class="opt-btn ${isSel ? 'selected' : ''}" onclick="selectOption(${q.num}, '${opt}')">${opt}</button>`;
+                }).join('')}
+              </div>
+            `;
+          } else if (q.type === Q_TYPES.MSQ) {
+            const userOptsList = userResp !== '--' ? userResp.split(',') : [];
+            selectorHtml = `
+              <div class="options-selector-container">
+                ${['A', 'B', 'C', 'D'].map(opt => {
+                  const isSel = userOptsList.includes(opt);
+                  return `<button class="opt-btn ${isSel ? 'selected correct' : ''}" onclick="toggleMsqOption(${q.num}, '${opt}')">${opt}</button>`;
+                }).join('')}
+              </div>
+            `;
+          } else if (q.type === Q_TYPES.NAT || q.type === Q_TYPES.PARA) {
+            selectorHtml = `
+              <div>
+                <input type="text" class="nat-input" placeholder="e.g. 5.5" value="${userResp === '--' ? '' : userResp}" onchange="setNatValue(${q.num}, this.value)" />
+              </div>
+            `;
+          }
+
+          // Side-by-side Keys
+          const allenAns = state.instituteKeys[paperKey].allen[q.num] || '--';
+          const motionAns = state.instituteKeys[paperKey].motion[q.num] || '--';
+          const resonanceAns = state.instituteKeys[paperKey].resonance[q.num] || '--';
+          const pwAns = state.instituteKeys[paperKey].pw[q.num] || '--';
+
+          const keysDiff = new Set([allenAns, motionAns, resonanceAns, pwAns].filter(Boolean)).size > 1;
+
+          const keysHtml = `
+            <div class="institute-keys-comparison">
+              <div class="key-pill ${state.activeInstitute === 'allen' ? 'active' : ''} ${keysDiff ? 'discrepancy' : ''}" title="Allen Kota Answer">
+                <span class="inst-name">Allen</span>
+                <span class="inst-key">${allenAns}</span>
+              </div>
+              <div class="key-pill ${state.activeInstitute === 'motion' ? 'active' : ''} ${keysDiff ? 'discrepancy' : ''}" title="Motion Answer">
+                <span class="inst-name">Motion</span>
+                <span class="inst-key">${motionAns}</span>
+              </div>
+              <div class="key-pill ${state.activeInstitute === 'resonance' ? 'active' : ''} ${keysDiff ? 'discrepancy' : ''}" title="Resonance Answer">
+                <span class="inst-name">Reso</span>
+                <span class="inst-key">${resonanceAns}</span>
+              </div>
+              <div class="key-pill ${state.activeInstitute === 'pw' ? 'active' : ''} ${keysDiff ? 'discrepancy' : ''}" title="PW Answer">
+                <span class="inst-name">PW</span>
+                <span class="inst-key">${pwAns}</span>
+              </div>
+            </div>
+          `;
+
+          card.innerHTML = `
+            <div class="q-number">
+              <span>Q${q.num}</span>
+              <span class="q-id">ID: ${q.id}</span>
+            </div>
+            <div>
+              <span class="q-type-badge ${q.type}">${q.type.toUpperCase()}</span>
+            </div>
+            ${selectorHtml}
+            ${keysHtml}
+            ${scoreHtml}
+          `;
+
+          container.appendChild(card);
+        });
+      });
+    }
+
+    function renderDiscrepancies() {
+      const container = document.getElementById('discrepancy-list-container');
+      container.innerHTML = '';
+
+      const discList = findDiscrepancies();
+
+      if (discList.length === 0) {
+        container.innerHTML = `<div style="text-align: center; color: var(--text-muted); font-size: 0.9rem; padding: 1rem;">No discrepancies found for this paper! All institutes agree perfectly.</div>`;
+        return;
+      }
+
+      discList.forEach(item => {
+        const row = document.createElement('div');
+        row.className = 'disc-item';
+        row.style.cursor = 'pointer';
+        row.onclick = () => {
+          changeSubject(item.subject);
+          // Scroll to question
+          const cards = document.getElementsByClassName('q-number');
+          for (let c of cards) {
+            if (c.innerText.includes(`Q${item.num}`)) {
+              c.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              break;
+            }
+          }
+        };
+
+        row.innerHTML = `
+          <div class="disc-details">
+            <span class="disc-q-num">Q${item.num} (${item.subject.toUpperCase()})</span>
+            <span style="font-size: 0.75rem; background: rgba(255,255,255,0.05); padding: 0.1rem 0.4rem; border-radius: 4px; border: 1px solid var(--glass-border);">${item.type.toUpperCase()}</span>
+          </div>
+          <div class="institute-keys-comparison" style="border: none; padding: 0;">
+            <div class="key-pill discrepancy" style="border-color: var(--accent-physics);"><span class="inst-name">Allen</span><span class="inst-key">${item.allen}</span></div>
+            <div class="key-pill discrepancy" style="border-color: var(--accent-math);"><span class="inst-name">Motion</span><span class="inst-key">${item.motion}</span></div>
+            <div class="key-pill discrepancy" style="border-color: var(--accent-chem);"><span class="inst-name">Reso</span><span class="inst-key">${item.resonance}</span></div>
+            <div class="key-pill discrepancy" style="border-color: var(--accent-warning);"><span class="inst-name">PW</span><span class="inst-key">${item.pw}</span></div>
+          </div>
+        `;
+
+        container.appendChild(row);
+      });
+    }
+
+    function renderBulkKeyEditor() {
+      const container = document.getElementById('key-editor-grid');
+      container.innerHTML = '';
+
+      const paperKey = state.activePaper === 1 ? 'paper1' : 'paper2';
+      const questions = state.questionData[paperKey].filter(q => q.subject === state.activeSubject);
+      const activeKey = state.instituteKeys[paperKey][state.activeInstitute];
+
+      questions.forEach(q => {
+        const val = activeKey[q.num] || '';
+        
+        const box = document.createElement('div');
+        box.className = 'editor-q-box';
+
+        box.innerHTML = `
+          <span class="editor-q-label">Q${q.num} (${q.type.toUpperCase()})</span>
+          <input type="text" class="editor-q-input" value="${val}" oninput="updateKeyDirectly(${q.num}, this.value)" placeholder="Key" />
+        `;
+
+        container.appendChild(box);
+      });
+    }
+
+    // Interactive Actions
+
+    function changePaper(paperNum) {
+      state.activePaper = paperNum;
+      document.getElementById('paper1-tab').classList.toggle('active', paperNum === 1);
+      document.getElementById('paper2-tab').classList.toggle('active', paperNum === 2);
+      
+      // Update active subject to remain correct for number of questions
+      updateUI();
+    }
+
+    function changeSubject(subName) {
+      state.activeSubject = subName;
+      document.getElementById('subj-physics').classList.toggle('active', subName === 'physics');
+      document.getElementById('subj-chemistry').classList.toggle('active', subName === 'chemistry');
+      document.getElementById('subj-math').classList.toggle('active', subName === 'math');
+      updateUI();
+    }
+
+    function changeInstitute(instName) {
+      state.activeInstitute = instName;
+      updateUI();
+    }
+
+    function selectOption(qNum, optVal) {
+      const paperKey = state.activePaper === 1 ? 'paper1' : 'paper2';
+      const current = state.userResponses[paperKey][qNum];
+      
+      if (current === optVal) {
+        state.userResponses[paperKey][qNum] = '--'; // Deselect
+      } else {
+        state.userResponses[paperKey][qNum] = optVal;
+      }
+      updateUI();
+    }
+
+    function toggleMsqOption(qNum, optVal) {
+      const paperKey = state.activePaper === 1 ? 'paper1' : 'paper2';
+      const current = state.userResponses[paperKey][qNum] || '--';
+      let opts = current !== '--' ? current.split(',').map(x => x.trim()).filter(Boolean) : [];
+
+      if (opts.includes(optVal)) {
+        opts = opts.filter(x => x !== optVal);
+      } else {
+        opts.push(optVal);
+      }
+
+      // Sort alphabetically to maintain formatting
+      opts.sort();
+
+      state.userResponses[paperKey][qNum] = opts.length > 0 ? opts.join(',') : '--';
+      updateUI();
+    }
+
+    function setNatValue(qNum, val) {
+      const paperKey = state.activePaper === 1 ? 'paper1' : 'paper2';
+      state.userResponses[paperKey][qNum] = val.trim() !== '' ? val.trim() : '--';
+      updateUI();
+    }
+
+    function updateKeyDirectly(qNum, val) {
+      const paperKey = state.activePaper === 1 ? 'paper1' : 'paper2';
+      state.instituteKeys[paperKey][state.activeInstitute][qNum] = val;
+      updateUI();
+    }
+
+    // Trigger Parse of response sheets
+    function triggerParse() {
+      const txt = document.getElementById('parser-textarea').value;
+      if (!txt || txt.trim() === '') {
+        alert('Please paste some response sheet text or HTML first!');
+        return;
+      }
+
+      const parsedCount = parseResponseSheet(txt);
+      
+      if (parsedCount > 0) {
+        document.getElementById('parser-status').innerHTML = `<span style="color: var(--accent-success); font-weight: 600;">Successfully parsed ${parsedCount} responses for Paper ${state.activePaper}!</span>`;
+        updateUI();
+      } else {
+        document.getElementById('parser-status').innerHTML = `<span style="color: var(--accent-danger);">No matches found. Make sure the pasted text contains Question ID and Chosen Option details.</span>`;
+      }
+    }
+
+    // Simulate complete mock exam attempt
+    function simulateUserAttempt() {
+      const paperKey = state.activePaper === 1 ? 'paper1' : 'paper2';
+      const questions = state.questionData[paperKey];
+      const activeKey = state.instituteKeys[paperKey][state.activeInstitute];
+
+      questions.forEach(q => {
+        // Attempt 80% of questions randomly
+        if (Math.random() < 0.8) {
+          const keyAns = activeKey[q.num] || '';
+          if (q.type === Q_TYPES.SCQ || q.type === Q_TYPES.MATCH) {
+            // 75% chance correct, 25% incorrect
+            if (Math.random() < 0.75) {
+              state.userResponses[paperKey][q.num] = keyAns;
+            } else {
+              const choices = ['A', 'B', 'C', 'D'].filter(x => x !== keyAns);
+              state.userResponses[paperKey][q.num] = choices[Math.floor(Math.random() * choices.length)];
+            }
+          } else if (q.type === Q_TYPES.MSQ) {
+            // Simulate correct or partial correct response
+            if (Math.random() < 0.65) {
+              state.userResponses[paperKey][q.num] = keyAns;
+            } else {
+              const opts = keyAns.split(',');
+              if (opts.length > 1 && Math.random() < 0.5) {
+                // partial correct
+                state.userResponses[paperKey][q.num] = opts.slice(0, opts.length - 1).join(',');
+              } else {
+                state.userResponses[paperKey][q.num] = 'D'; // random single
+              }
+            }
+          } else if (q.type === Q_TYPES.NAT || q.type === Q_TYPES.PARA) {
+            // 70% chance correct
+            if (Math.random() < 0.7) {
+              state.userResponses[paperKey][q.num] = keyAns;
+            } else {
+              const numVal = parseFloat(keyAns);
+              state.userResponses[paperKey][q.num] = isNaN(numVal) ? '5' : (numVal + 1).toString();
+            }
+          }
+        } else {
+          state.userResponses[paperKey][q.num] = '--'; // Leave unattempted
+        }
+      });
+
+      document.getElementById('parser-status').innerHTML = `<span style="color: var(--accent-success); font-weight: 600;">Simulated attempt successfully populated for Paper ${state.activePaper}!</span>`;
+      updateUI();
+    }
+
+    function clearUserResponses() {
+      if (confirm('Are you sure you want to clear all marked responses for Paper 1 & Paper 2?')) {
+        state.userResponses.paper1 = {};
+        state.userResponses.paper2 = {};
+        document.getElementById('parser-textarea').value = '';
+        document.getElementById('parser-status').innerText = 'Cleared all responses.';
+        updateUI();
+      }
+    }
+
+    function handleFileUpload(files) {
+      if (files.length === 0) return;
+      const file = files[0];
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const text = e.target.result;
+        document.getElementById('parser-textarea').value = text;
+        const parsedCount = parseResponseSheet(text);
+        
+        if (parsedCount > 0) {
+          document.getElementById('parser-status').innerHTML = `<span style="color: var(--accent-success); font-weight: 600;">Successfully parsed ${parsedCount} responses from uploaded file!</span>`;
+          updateUI();
+        } else {
+          document.getElementById('parser-status').innerHTML = `<span style="color: var(--accent-danger);">Could not extract responses. Ensure it is a valid JEE Advanced Response Sheet HTML or text.</span>`;
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    // Initialize UI on load
+    window.onload = function() {
+      updateUI();
+    };
+  </script>
+</body>
+</html>

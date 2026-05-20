@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "ExamGoal Question Scraper",
+  "version": "1.0.0",
+  "description": "Scrape practice exam questions from ExamGoal.com for offline study.",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "tabs"
+  ],
+  "host_permissions": [
+    "https://*.examgoal.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.examgoal.com/*"],
+      "js": ["utils.js", "content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  }
+}

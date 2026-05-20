@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ExamGoal Scraper</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div class="shell">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <svg class="logo-icon" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="2" width="32" height="32" rx="8" fill="var(--accent)" opacity="0.15"/>
+          <path d="M10 13h16M10 18h10M10 23h13" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round"/>
+          <circle cx="27" cy="23" r="4.5" fill="var(--accent)" opacity="0.9"/>
+          <path d="M25.5 23l1 1 2-2" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <span class="logo-title">ExamGoal</span>
+          <span class="logo-sub">Scraper</span>
+        </div>
+      </div>
+      <span id="statusDot" class="status-dot idle" title="Idle"></span>
+    </header>
+
+    <!-- Status bar -->
+    <div class="status-bar" id="statusBar">
+      <span id="statusMsg">Ready — navigate to an ExamGoal exam page.</span>
+    </div>
+
+    <!-- Stats row -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <span class="stat-num" id="statTotal">0</span>
+        <span class="stat-label">Collected</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num" id="statPage">—</span>
+        <span class="stat-label">Page</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num" id="statSession">0</span>
+        <span class="stat-label">This Run</span>
+      </div>
+    </div>
+
+    <!-- Primary actions -->
+    <div class="btn-group">
+      <button class="btn btn-primary" id="btnScrapePage">
+        <svg viewBox="0 0 20 20" fill="none"><path d="M4 5h12M4 10h8M4 15h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        Scrape Current Page
+      </button>
+      <button class="btn btn-secondary" id="btnScrapeAll">
+        <svg viewBox="0 0 20 20" fill="none"><path d="M10 3v14M3 10l7 7 7-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Scrape All Pages
+      </button>
+    </div>
+
+    <!-- Export / Clear -->
+    <div class="btn-group btn-group--row">
+      <button class="btn btn-export" id="btnExport" disabled>
+        <svg viewBox="0 0 20 20" fill="none"><path d="M3 13v4h14v-4M10 3v10M6 9l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Export JSON
+      </button>
+      <button class="btn btn-clear" id="btnClear">
+        <svg viewBox="0 0 20 20" fill="none"><path d="M5 5l10 10M15 5L5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        Clear
+      </button>
+    </div>
+
+    <!-- Progress bar (hidden when idle) -->
+    <div class="progress-wrap" id="progressWrap" hidden>
+      <div class="progress-bar" id="progressBar"></div>
+      <span id="progressLabel">Scraping page <span id="pgNum">1</span>…</span>
+    </div>
+
+    <!-- Preview list -->
+    <div class="preview-section">
+      <div class="preview-header">
+        <span class="preview-title">Preview</span>
+        <span class="preview-hint" id="previewHint">No questions yet</span>
+      </div>
+      <ul class="preview-list" id="previewList"></ul>
+    </div>
+
+    <!-- Disclaimer -->
+    <footer class="disclaimer">
+      ⚠️ Please respect ExamGoal's <a href="https://www.examgoal.com/terms-of-service" target="_blank">Terms of Service</a>. Use this tool for personal study only.
+    </footer>
+
+  </div>
+  <script src="utils.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

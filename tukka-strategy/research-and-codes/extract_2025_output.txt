@@ -1,0 +1,122 @@
+﻿
+============================================================
+2025 Paper 1 ΓÇö FULL ANSWER EXTRACTION
+============================================================
+  MATH Q2: C
+  MATH Q3: A
+  MATH Q4: C
+  MATH Q5: C
+  MATH Q5: A, C
+  MATH Q7: A, D
+  MATH Q8: A, D
+  MATH Q10: 105
+  MATH Q11: [1.15 to 1.25]
+  MATH Q12: 762
+  MATH Q13: [2.35 to 2.45]
+  MATH Q14: 96
+  MATH Q15: 2
+  MATH Q14: C
+  MATH Q15: B
+  MATH Q16: A
+  PHY Q2: A
+  PHY Q3: D
+  PHY Q4: A
+  PHY Q5: C
+  PHY Q6: B, D
+  PHY Q7: D
+  PHY Q7: A, D
+  PHY Q9: 2
+  PHY Q10: [21 to 25]
+  PHY Q11: 3
+  PHY Q12: 0.5 OR 0.75
+  PHY Q13: [75 to 79] OR [94 to 95]
+  PHY Q14: 72
+  PHY Q14: C
+  PHY Q15: A
+  PHY Q16: C
+  CHEM Q3: A
+  CHEM Q4: A
+  CHEM Q5: B
+  CHEM Q4: B
+  CHEM Q6: B, C
+  CHEM Q7: A, B
+  CHEM Q7: B
+  CHEM Q12: 100
+  CHEM Q13: [2.2 to 2.3]
+  CHEM Q14: [-7.2 to -7]
+  CHEM Q15: [-29.95 to -29.8] OR [29.8 to 29.95]
+  CHEM Q16: 280
+  CHEM Q13: 175
+  CHEM Q14: A
+  CHEM Q15: B
+  CHEM Q16: B
+
+============================================================
+2025 Paper 2 ΓÇö FULL ANSWER EXTRACTION
+============================================================
+  MATH Q2: C
+  MATH Q3: B
+  MATH Q4: C
+  MATH Q5: A
+  MATH Q5: A, B
+  MATH Q8: A, C
+  MATH Q9: A, C
+  MATH Q10: B, C, D
+  MATH Q12: [0.7 to 0.8]
+  MATH Q13: 6
+  MATH Q14: [0.27 to 0.33]
+  MATH Q15: -2
+  MATH Q16: -2
+  MATH Q17: [0.2 to 0.3]
+  MATH Q18: 3
+  MATH Q19: 21
+  PHY Q2: B
+  PHY Q3: C
+  PHY Q4: C
+  PHY Q5: A, B, C
+  PHY Q7: A, B
+  PHY Q8: A
+  PHY Q8: A, B, C
+  PHY Q10: [1.65 to 1.67]
+  PHY Q11: [11.7 to 11.9]
+  PHY Q13: 1.6
+  PHY Q14: [2.3 to 2.4]
+  PHY Q15: 0.2
+  PHY Q16: 1.2
+  PHY Q17: [167 to 171]
+  PHY Q18: [26 to 33]
+  CHEM Q2: A
+  CHEM Q3: A
+  CHEM Q4: D
+  CHEM Q5: C
+  CHEM Q6: C, D
+  CHEM Q7: B, D
+  CHEM Q8: A, C
+  CHEM Q9: B, C
+  CHEM Q12: [10.85 to 11.1]
+  CHEM Q13: [3.85 to 4.15]
+  CHEM Q14: [15.5 to 16.5]
+  CHEM Q15: [4 to 4.25]
+  CHEM Q16: [105.4 to 105.6]
+  CHEM Q17: [2.4 to 2.55]
+  CHEM Q18: [7.5 to 7.8]
+  CHEM Q19: 2
+
+
+============================================================
+CHECKING 2018-2024 for embedded answers...
+============================================================
+  2018 Paper 1: NO embedded answers found
+  2018 Paper 2: NO embedded answers found
+  2019 Paper 1: NO embedded answers found
+  2019 Paper 2: NO embedded answers found
+  2020 Paper 1: NO embedded answers found
+  2020 Paper 2: NO embedded answers found
+  2021 Paper 1: NO embedded answers found
+  2021 Paper 2: NO embedded answers found
+  2022 Paper 1: NO embedded answers found
+  2022 Paper 2: NO embedded answers found
+  2023 Paper 1: NO embedded answers found
+  2023 Paper 2: NO embedded answers found
+  2024 Paper 1: NO embedded answers found
+  2024 Paper 2: NO embedded answers found

@@ -1,0 +1,7 @@
+# Ignore heavy raw PDFs to keep the GitHub repository fast, lightweight, and under limits
+tukka-strategy/research-and-codes/*.pdf
+tukka-strategy/research-and-codes/__pycache__/
+*.webp
+*.mp4
+*.zip
+*.lnk

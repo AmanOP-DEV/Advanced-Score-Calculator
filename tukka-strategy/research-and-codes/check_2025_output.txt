@@ -1,0 +1,96 @@
+﻿
+============================================================
+2025 Paper 1 ΓÇö searching for answers...
+============================================================
+
+  Pattern 'Answer:' found 48 matches:
+    C
+    A
+    C
+    C
+    A, C
+    A, D
+    A, D
+    105
+    [1.15 to 1.25]
+    762
+
+  Lines with 'ans/answer/key' (106 found):
+    L13: answer.
+    L15: For each question, choose the option corresponding to the correct answer.
+    L17: Answer to each question will be evaluated according to the following marking scheme:
+    L20: :    0 If none of the options is chosen (i.e. the question is unanswered);
+    L83: Answer: C
+    L84: Answer: A
+    L85: Final Answer Key Paper 1
+    L128: Let the transpose of a matrix ≡¥æï be denoted by ≡¥æï≡¥æç. Then the number of 3 ├ù 3 invertible matrices ≡¥æä
+    L164: Answer: C
+    L165: Answer: C
+    L178: option(s) is(are) correct answer(s).
+    L180: For each question, choose the option(s) corresponding to (all) the correct answer(s).
+    L182: Answer to each question will be evaluated according to the following marking scheme:
+    L191: :      0 If none of the options is chosen (i.e. the question is unanswered);
+    L195: answers, then
+    L203: choosing no option (i.e. the question is unanswered) will get 0 marks; and
+    L236: Answer: A, C
+    L309: Answer: A, D
+    L310: Answer: A, D
+    L360: The answer to each question is a NUMERICAL VALUE.
+    L362: For each question, enter the correct numerical value of the answer using the mouse and the on-
+    L363: screen virtual numeric keypad in the place designated to enter the answer.
+    L368: Answer to each question will be evaluated according to the following marking scheme:
+    L373: Answer: 105
+    L374: Answer: [1.15 to 1.25]
+    L375: Answer: 762
+    L451: Answer: [2.35 to 2.45]
+    L452: Answer: 96
+    L453: Answer: 2
+    L537: Answer to each question will be evaluated according to the following marking scheme:
+
+============================================================
+2025 Paper 2 ΓÇö searching for answers...
+============================================================
+
+  Pattern 'Answer:' found 47 matches:
+    C
+    B
+    C
+    A
+    A, B
+    A, C
+    A, C
+    B, C, D
+    [0.7 to 0.8]
+    6
+
+  Lines with 'ans/answer/key' (93 found):
+    L14: answer.
+    L16: For each question, choose the option corresponding to the correct answer.
+    L18: Answer to each question will be evaluated according to the following marking scheme:
+    L21: :    0 If none of the options is chosen (i.e. the question is unanswered);
+    L86: Answer: C
+    L87: Answer: B
+    L88: Final Answer Key Paper 2
+    L147: Answer: C
+    L148: Answer: A
+    L160: option(s) is(are) correct answer(s).
+    L162: For each question, choose the option(s) corresponding to (all) the correct answer(s).
+    L164: Answer to each question will be evaluated according to the following marking scheme:
+    L173: :      0 If none of the options is chosen (i.e. the question is unanswered);
+    L177: answers, then
+    L185: choosing no option (i.e. the question is unanswered) will get 0 marks; and
+    L220: Answer: A, B
+    L301: Answer: A, C
+    L302: Answer: A, C
+    L303: Answer: B, C, D
+    L363: The answer to each question is a NUMERICAL VALUE.
+    L365: For each question, enter the correct numerical value of the answer using the mouse and the on-
+    L366: screen virtual numeric keypad in the place designated to enter the answer.
+    L371: Answer to each question will be evaluated according to the following marking scheme:
+    L376: Answer: [0.7 to 0.8]
+    L377: Answer: 6
+    L378: Answer: [0.27 to 0.33]
+    L379: Answer: -2
+    L452: Answer: -2
+    L453: Answer: [0.2 to 0.3]
+    L454: Answer: 3

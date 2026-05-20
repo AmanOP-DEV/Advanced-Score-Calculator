@@ -1,0 +1,327 @@
+You are upgrading an existing Chrome extension (Manifest V3) that tracks active browsing time.
+
+This extension already has:
+
+* active time tracking (tabs, idle, visibility)
+* per-day storage (day_YYYY-MM-DD)
+* per-site aggregation (totalMs, visits)
+* category tagging (domain → category)
+* an existing UI with a defined design system (colors, spacing, typography)
+
+Your goal is to transform it into a **behavior-aware productivity system with strong visual reports**, WITHOUT breaking the current UI aesthetic.
+
+---
+
+# CORE RULE
+
+Enhance the system. Do NOT redesign it.
+
+* Reuse existing CSS variables, colors, spacing, typography
+* Do NOT introduce a new design language
+* All UI must feel native to the current extension
+
+---
+
+# 1. DATA MODEL UPGRADE (MANDATORY)
+
+Introduce session-level tracking.
+
+Each session object:
+
+{
+site: string,
+url: string,
+startTime: number,
+endTime: number,
+duration: number,
+category: string,
+classification: "productive" | "neutral" | "distracting"
+}
+
+Store sessions in:
+focuslog_sessions_day_YYYY-MM-DD
+
+Do NOT remove existing aggregated data.
+
+---
+
+# 2. CLASSIFICATION SYSTEM
+
+Implement:
+
+function classifySession(url, category, userOverrides)
+
+Priority:
+
+### 1. User override
+
+If exists → return override
+
+### 2. Context rules (URL-based)
+
+Examples:
+
+* youtube.com/shorts → distracting
+* youtube.com/feed → distracting
+* youtube.com/watch → productive
+* instagram.com → distracting
+* twitter.com → distracting
+
+### 3. Category fallback
+
+* learning, development → productive
+* social, entertainment → distracting
+* others → neutral
+
+Return classification.
+
+---
+
+# 3. TRACKING INTEGRATION
+
+When a session ends:
+
+* compute duration
+* assign category
+* classify session
+* store session
+
+Also maintain totals:
+
+* productiveTime
+* distractingTime
+* neutralTime
+* tabSwitchCount
+
+---
+
+# 4. METRICS ENGINE
+
+Compute:
+
+### Productivity Ratio
+
+productiveTime / totalTime
+
+---
+
+### Focus Score
+
+focusScore =
+(productiveTime / totalTime) * 100
+
+* (tabSwitchCount * 0.5)
+
+Clamp 0–100
+
+---
+
+### Deep Work
+
+A session is deep work if:
+duration >= 25 minutes
+
+Track:
+
+* deepWorkCount
+* longestSession
+
+---
+
+### Distraction Time
+
+Sum of all distracting sessions
+
+---
+
+### Hourly Pattern
+
+Bucket time per hour:
+hourBuckets[0–23]
+
+---
+
+# 5. INSIGHT ENGINE
+
+Implement generateInsights(data)
+
+Insights must be:
+
+* direct
+* data-backed
+* slightly uncomfortable
+
+Examples:
+
+* "You spent 2.3h on distractions"
+* "Only 1 deep work session detected"
+* "You switched tabs 120 times"
+* "Your focus score is 48/100"
+
+Do NOT generate generic motivational text.
+
+---
+
+# 6. VISUAL REPORT SYSTEM (CRITICAL)
+
+You must build a structured report UI inside popup.
+
+---
+
+## SECTION 1: Focus Summary (Top Priority)
+
+Display:
+
+* Large Focus Score
+* Productive / Distracting / Neutral time
+
+Layout:
+
+* Big number
+* small breakdown below
+
+No chart here.
+
+---
+
+## SECTION 2: Time Distribution
+
+Use horizontal bar visualization (NOT pie chart)
+
+Show:
+
+* productive vs distracting
+
+Optional:
+
+* small stacked bar allowed
+
+---
+
+## SECTION 3: Distraction Breakdown
+
+List only distracting sites:
+
+* site name
+* time spent
+
+Sorted descending
+
+---
+
+## SECTION 4: Deep Work
+
+Display:
+
+* deepWorkCount
+* longestSession
+
+Optional:
+
+* small progress bar or mini chart
+
+---
+
+## SECTION 5: Insight Cards
+
+Compact cards:
+
+* icon
+* short title
+* one-line message
+
+---
+
+## SECTION 6: Time Pattern (Allowed chart)
+
+You may include ONE lightweight chart:
+
+Allowed:
+
+* bar chart (hourly usage)
+* minimal line chart
+
+Constraints:
+
+* small size
+* no heavy styling
+* must match theme
+
+---
+
+# 7. DESIGN CONSTRAINTS (STRICT)
+
+* Do NOT change:
+
+  * color palette
+  * typography
+  * spacing system
+
+* Use existing:
+
+  * CSS variables
+  * classes
+
+* Avoid:
+
+  * heavy gradients
+  * flashy charts
+  * dashboard-style clutter
+
+* Keep UI:
+
+  * compact
+  * high density
+  * readable in popup
+
+---
+
+# 8. COMPONENT STRUCTURE
+
+Implement reusable components:
+
+* FocusScoreCard
+* TimeSplitBar
+* DistractionList
+* DeepWorkCard
+* InsightCards
+* TimePatternChart
+
+Each must accept clean props and not depend on global state.
+
+---
+
+# 9. INTERACTION (IMPORTANT)
+
+Add action hooks:
+
+* After distraction list → suggest blocking site
+* After low score → suggest focus mode
+* After high distraction → suggest limits
+
+Keep actions minimal and inline.
+
+---
+
+# 10. PERFORMANCE
+
+* Avoid excessive storage writes
+* Batch session saves if needed
+* Do not recompute entire history repeatedly
+
+---
+
+# 11. OUTPUT
+
+Return:
+
+1. classification logic
+2. session tracking integration
+3. metrics calculation functions
+4. insight generator
+5. UI components (HTML + CSS + JS)
+6. chart implementation (lightweight)
+
+Code must be production-ready and consistent with existing extension.
+
+Do NOT explain. Only output code.

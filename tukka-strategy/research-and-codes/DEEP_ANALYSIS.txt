@@ -1,0 +1,123 @@
+================================================================================
+ MILITARY-GRADE JEE ADVANCED TUKKA INTELLIGENCE REPORT
+ Classification: TOP SECRET // FOR YOUR EYES ONLY
+================================================================================
+
+██████████████████████████████████████████████████████████████████████
+ 1. RECENT-YEAR-WEIGHTED SINGLE MCQ ANALYSIS (2023-2025 = 2x)
+██████████████████████████████████████████████████████████████████████
+
+  Weighted total: 291
+  A:   90 ( 30.9%)  ███████████████
+  B:   86 ( 29.6%)  ██████████████
+  C:   77 ( 26.5%)  █████████████
+  D:   38 ( 13.1%)  ██████
+
+██████████████████████████████████████████████████████████████████████
+ 2. SECTION-TYPE PATTERNS
+██████████████████████████████████████████████████████████████████████
+
+  Section 1: Single MCQ (n=116):
+    A:  39 ( 33.6%)
+    B:  35 ( 30.2%)
+    C:  28 ( 24.1%)
+    D:  14 ( 12.1%)
+
+  Section 4: Paragraph Single (n=72):
+    A:  19 ( 26.4%)
+    B:  18 ( 25.0%)
+    C:  23 ( 31.9%)
+    D:  12 ( 16.7%)
+
+██████████████████████████████████████████████████████████████████████
+ 3. POSITION-IN-SECTION ANALYSIS (which Q# in section is which letter?)
+██████████████████████████████████████████████████████████████████████
+
+  Single MCQ:
+    Q1 in section: A=11 B=5 C=6 D=2  → BEST: (A) 11/24=46%
+    Q2 in section: A=8 B=7 C=8 D=1  → BEST: (A) 8/24=33%
+    Q3 in section: A=7 B=9 C=3 D=4  → BEST: (B) 9/23=39%
+    Q4 in section: A=9 B=6 C=5 D=2  → BEST: (A) 9/22=41%
+    Q5 in section: A=2 B=1 C=2 D=1  → BEST: (A) 2/6=33%
+    Q6 in section: A=0 B=2 C=3 D=1  → BEST: (C) 3/6=50%
+
+  Paragraph:
+    Q1 in section: A=5 B=3 C=8 D=2  → BEST: (C) 8/18=44%
+    Q2 in section: A=6 B=3 C=5 D=4  → BEST: (A) 6/18=33%
+    Q3 in section: A=6 B=7 C=4 D=1  → BEST: (B) 7/18=39%
+    Q4 in section: A=2 B=3 C=4 D=3  → BEST: (C) 4/12=33%
+    Q5 in section: A=0 B=2 C=1 D=0  → BEST: (B) 2/3=67%
+    Q6 in section: A=0 B=0 C=1 D=2  → BEST: (D) 2/3=67%
+
+██████████████████████████████████████████████████████████████████████
+ 4. MULTI-CORRECT: POSITION & SUBJECT DEEP DIVE
+██████████████████████████████████████████████████████████████████████
+
+  PHY Multi-Correct (n=51):
+    # correct: 2=26(51%) 3=23(45%) 4=2(4%)
+    Letter freq: A=35(69%) B=37(73%) C=31(61%) D=26(51%)
+    Top combos: (A,B,C)=9, (B,C)=7, (A,C,D)=6, (A,B)=6, (B,D)=5
+
+  CHEM Multi-Correct (n=46):
+    # correct: 2=28(61%) 3=18(39%) 4=0(0%)
+    Letter freq: A=25(54%) B=30(65%) C=27(59%) D=28(61%)
+    Top combos: (A,B,C)=6, (A,B,D)=6, (C,D)=6, (B,D)=6, (B,C)=5
+
+  MATH Multi-Correct (n=47):
+    # correct: 2=27(57%) 3=20(43%) 4=0(0%)
+    Letter freq: A=30(64%) B=32(68%) C=32(68%) D=20(43%)
+    Top combos: (A,C)=8, (B,C,D)=7, (B,C)=7, (A,B)=7, (A,B,C)=5
+
+██████████████████████████████████████████████████████████████████████
+ 5. FIRST QUESTION OF EACH SECTION/SUBJECT BIAS
+██████████████████████████████████████████████████████████████████████
+
+  First question of section (n=43):
+    A: 16 (37.2%)
+    B: 9 (20.9%)
+    C: 14 (32.6%)
+    D: 4 (9.3%)
+
+  Last questions of section (pos>=4, n=65):
+    A: 15 (23.1%)
+    B: 20 (30.8%)
+    C: 18 (27.7%)
+    D: 12 (18.5%)
+
+██████████████████████████████████████████████████████████████████████
+ 7. PAPER 1 vs PAPER 2 — MULTI-CORRECT DIFFERENCES
+██████████████████████████████████████████████████████████████████████
+
+  Paper 1 Multi (n=117):
+    2-opt=59(50%) 3-opt=56(48%) 4-opt=2(2%)
+    Letters: A=62% B=72% C=64% D=53%
+
+  Paper 2 Multi (n=27):
+    2-opt=22(81%) 3-opt=5(19%) 4-opt=0(0%)
+    Letters: A=63% B=56% C=56% D=44%
+
+██████████████████████████████████████████████████████████████████████
+ 8. CROSS-SUBJECT CORRELATION (Same Q position)
+██████████████████████████████████████████████████████████████████████
+
+  Cross-subject same-position pairs: 177
+  Same answer: 45 (25.4%) — expected 25%
+  Different:   132 (74.6%)
+
+██████████████████████████████████████████████████████████████████████
+ 9. 2024-2025 PATTERNS ONLY (most predictive for 2026)
+██████████████████████████████████████████████████████████████████████
+
+  Recent single MCQs (n=69):
+    A: 22 (31.9%)
+    B: 19 (27.5%)
+    C: 21 (30.4%)
+    D: 7 (10.1%)
+    PHY: best=(A) 12/24=50%
+    CHEM: best=(B) 9/24=38%
+    MATH: best=(C) 10/21=48%
+
+  Recent multi MCQs (n=36):
+    2-opt=25(69%) 3-opt=11(31%)
+    Letters: A=69% B=58% C=58% D=44%
+    Top combos: (A,C)=7, (A,B,C)=5, (A,B)=5, (A,D)=4, (B,D)=4

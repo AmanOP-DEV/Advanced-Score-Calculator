@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JEE Prep - Offline Preparation App</title>
+    <style>
+        :root {
+            --primary: #3498db;
+            --secondary: #2ecc71;
+            --accent: #e74c3c;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --gray: #95a5a6;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav li {
+            margin-left: 20px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        
+        nav a:hover, nav a.active {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .main-content {
+            padding: 30px 0;
+            min-height: calc(100vh - 160px);
+        }
+        
+        .view {
+            display: none;
+        }
+        
+        .view.active {
+            display: block;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .card-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--dark);
+            border-bottom: 2px solid var(--light);
+            padding-bottom: 10px;
+        }
+        
+        .btn {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #27ae60;
+        }
+        
+        .btn-accent {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .btn-accent:hover {
+            background-color: #c0392b;
+        }
+        
+        .file-drop-area {
+            border: 2px dashed var(--gray);
+            border-radius: 8px;
+            padding: 30px;
+            text-align: center;
+            margin: 20px 0;
+            transition: all 0.3s ease;
+        }
+        
+        .file-drop-area.highlight {
+            border-color: var(--primary);
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        
+        .package-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .package-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        
+        .package-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .package-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .package-meta {
+            color: var(--gray);
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .package-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: var(--gray);
+        }
+        
+        .question-container {
+            margin-bottom: 30px;
+        }
+        
+        .question-text {
+            font-size: 18px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .options-list {
+            list-style: none;
+        }
+        
+        .option-item {
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background-color: var(--light);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .option-item:hover {
+            background-color: #dfe6e9;
+        }
+        
+        .option-item.selected {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .option-item.correct {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .option-item.incorrect {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .solution-panel {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .hint-panel {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fff8e1;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+        }
+        
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background-color: var(--light);
+            border-radius: 4px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: var(--secondary);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .stat-card .value {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .stat-card.accuracy .value {
+            color: var(--secondary);
+        }
+        
+        .stat-card.time .value {
+            color: var(--primary);
+        }
+        
+        .stat-card.questions .value {
+            color: var(--accent);
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+                justify-content: center;
+            }
+            
+            nav li {
+                margin: 0 10px;
+            }
+            
+            .package-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">JEE Prep</div>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="nav-link active" data-view="dashboard">Dashboard</a></li>
+                        <li><a href="#" class="nav-link" data-view="question-bank">Question Bank</a></li>
+                        <li><a href="#" class="nav-link" data-view="practice">Practice</a></li>
+                        <li><a href="#" class="nav-link" data-view="analytics">Analytics</a></li>
+                        <li><a href="#" class="nav-link" data-view="settings">Settings</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="container">
+            <!-- Dashboard View -->
+            <div id="dashboard" class="view active">
+                <div class="card">
+                    <h2 class="card-title">Welcome to JEE Prep</h2>
+                    <p>Your offline JEE preparation companion. Import workbook packages to get started.</p>
+                    
+                    <div class="file-drop-area" id="drop-area">
+                        <p>Drag & drop your .wbp file here or</p>
+                        <input type="file" id="file-input" accept=".wbp" hidden>
+                        <button class="btn btn-primary" id="browse-btn">Browse Files</button>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2 class="card-title">Your Packages</h2>
+                    <div id="packages-container" class="package-grid">
+                        <div class="package-card">
+                            <div class="package-title">Work, Energy and Power</div>
+                            <div class="package-meta">Physics • Mechanics • Resonance DPP</div>
+                            <div class="package-stats">
+                                <div class="stat">
+                                    <div class="stat-value">150</div>
+                                    <div class="stat-label">Questions</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">42%</div>
+                                    <div class="stat-label">Completed</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">76%</div>
+                                    <div class="stat-label">Accuracy</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="package-card">
+                            <div class="package-title">Organic Chemistry</div>
+                            <div class="package-meta">Chemistry • NCERT Advanced</div>
+                            <div class="package-stats">
+                                <div class="stat">
+                                    <div class="stat-value">200</div>
+                                    <div class="stat-label">Questions</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">18%</div>
+                                    <div class="stat-label">Completed</div>
+                                </div>
+                                <div class="stat">
+                                    <div class="stat-value">65%</div>
+                                    <div class="stat-label">Accuracy</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Question Bank View -->
+            <div id="question-bank" class="view">
+                <div class="card">
+                    <h2 class="card-title">Question Bank</h2>
+                    <div class="filters">
+                        <select id="subject-filter">
+                            <option value="">All Subjects</option>
+                            <option value="physics">Physics</option>
+                            <option value="chemistry">Chemistry</option>
+                            <option value="math">Mathematics</option>
+                        </select>
+                        
+                        <select id="difficulty-filter">
+                            <option value="">All Difficulty</option>
+                            <option value="easy">Easy</option>
+                            <option value="medium">Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                        
+                        <select id="topic-filter">
+                            <option value="">All Topics</option>
+                            <!-- Will be populated dynamically -->
+                        </select>
+                    </div>
+                    
+                    <div id="questions-list">
+                        <!-- Questions will be populated here -->
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Practice View -->
+            <div id="practice" class="view">
+                <div class="card">
+                    <h2 class="card-title">Practice Session</h2>
+                    <div class="session-controls">
+                        <select id="package-select">
+                            <option value="">Select a package</option>
+                        </select>
+                        
+                        <select id="question-count">
+                            <option value="10">10 Questions</option>
+                            <option value="20">20 Questions</option>
+                            <option value="30">30 Questions</option>
+                        </select>
+                        
+                        <button class="btn btn-primary" id="start-session">Start Session</button>
+                    </div>
+                    
+                    <div id="session-container" style="display: none;">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 30%;"></div>
+                        </div>
+                        
+                        <div class="question-container">
+                            <div class="question-text">
+                                A block of mass 2 kg is pulled along a horizontal surface by a force of 10 N. If the coefficient of kinetic friction is 0.2, what is the work done by friction when the block moves 5 m?
+                            </div>
+                            
+                            <ul class="options-list">
+                                <li class="option-item">A) -10 J</li>
+                                <li class="option-item">B) -20 J</li>
+                                <li class="option-item selected">C) -30 J</li>
+                                <li class="option-item">D) -40 J</li>
+                            </ul>
+                            
+                            <div class="hint-panel">
+                                <h4>Hint (Level 1):</h4>
+                                <p>What forces are doing work in this scenario?</p>
+                                <button class="btn btn-secondary">Show Next Hint</button>
+                            </div>
+                            
+                            <div class="solution-panel" style="display: none;">
+                                <h4>Solution:</h4>
+                                <ol>
+                                    <li>Identify the forces acting on the block: F_friction = μ × N</li>
+                                    <li>Calculate work done by friction: W = F × d × cos(θ)</li>
+                                </ol>
+                                <p><strong>Final Answer: Option B</strong></p>
+                            </div>
+                            
+                            <div class="navigation-buttons">
+                                <button class="btn btn-primary">Previous</button>
+                                <div>
+                                    <button class="btn btn-secondary" id="hint-btn">Hint</button>
+                                    <button class="btn btn-accent" id="solution-btn">Show Solution</button>
+                                    <button class="btn btn-primary" id="next-btn">Next Question</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Analytics View -->
+            <div id="analytics" class="view">
+                <div class="card">
+                    <h2 class="card-title">Your Performance</h2>
+                    
+                    <div class="stats-grid">
+                        <div class="stat-card accuracy">
+                            <div class="label">Overall Accuracy</div>
+                            <div class="value">72%</div>
+                            <div class="trend">+5% from last week</div>
+                        </div>
+                        
+                        <div class="stat-card time">
+                            <div class="label">Average Time per Question</div>
+                            <div class="value">2.4 min</div>
+                            <div class="trend">-0.3 min from last week</div>
+                        </div>
+                        
+                        <div class="stat-card questions">
+                            <div class="label">Questions Practiced</div>
+                           极
+                            <div class="value">347</div>
+                            <div class="trend">+42 this week</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 30px;">
+                        <h3>Performance by Topic</h3>
+                        <div id="topic-performance">
+                            <!-- Topic performance chart will go here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Settings View -->
+            <div id="settings" class="view">
+               极
+                <div class="card">
+                    <h2 class="card-title">Settings</h2>
+                    
+                    <div class="setting-group">
+                        <h3>Appearance</h3>
+                        <div class="setting-option">
+                            <label>
+                                <input type="checkbox" id="dark-mode"> Dark Mode
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <h3>Practice Settings</h3>
+                        <极
+                        <div class="setting-option">
+                            <label>Default Question Count</label>
+                            <select id="default-question-count">
+                                <option value="10">10 Questions</option>
+                                <option value="20" selected>20 Questions</option>
+                                <option value="极30">30 Questions</option>
+                            </select>
+                        </div>
+                        
+                        <div class="setting-option">
+                            <label>Show Hints Immediately</label>
+                            <input type="checkbox" id="show-hints">
+                        </div>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <h3>Data Management</h3>
+                        <button class="btn btn-primary" id="export-data">Export Progress Data</button>
+                        <button class="btn btn-accent" id="reset-data">Reset All Data</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>JEE Prep - Offline JEE Preparation App</p>
+            <p>All content remains locally on your device - no data is transmitted to servers</p>
+        </div>
+    </footer>
+
+    <script>
+        // Navigation
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const viewId = this.getAttribute('data-view');
+                
+                // Update active nav link
+                document.querySelectorAll('.nav-link').forEach(nav => {
+                    nav.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                // Show corresponding view
+                document.querySelectorAll('.view').forEach(view => {
+                    view.classList.remove('active');
+                });
+                document.getElementById(viewId).classList.add('active');
+            });
+        });
+        
+        // File drop area functionality
+        const dropArea = document.getElementById('drop-area');
+        const fileInput = document.getElementById('file-input');
+        const browseBtn = document.getElementById('browse-btn');
+        
+        browseBtn.addEventListener('click', () => {
+            fileInput.click();
+        });
+        
+        fileInput.addEventListener('change', handleFileSelect);
+        
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropArea.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropArea.addEventListener(eventName, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(event极 => {
+            dropArea.addEventListener(eventName, unhighlight, false);
+        });
+        
+        function highlight() {
+            dropArea.classList.add('highlight');
+        }
+        
+        function unhighlight() {
+            dropArea.classList.remove('highlight');
+        }
+        
+        dropArea.addEventListener('drop', handleDrop, false);
+        
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        }
+        
+        function handleFileSelect(e) {
+            const files = e.target.files;
+            handleFiles(files);
+        }
+        
+        function handleFiles(files) {
+            if (files.length > 0) {
+                const file = files[0];
+                if (file.name.endsWith('.wbp')) {
+                    // Here we would process the .wbp file
+                    alert(`Package "${file.name}" imported successfully!`);
+                    // In a real implementation, we would extract and process the ZIP file
+                } else {
+                    alert('Please select a valid .wbp file');
+                }
+            }
+        }
+        
+        // Practice session functionality
+        document.getElementById('start-session').addEventListener('click', function() {
+            const packageSelect = document.getElementById('package-select');
+            if (packageSelect.value) {
+                document.getElementById('session-container').style.display = 'block';
+                // In a real implementation, we would load questions from the selected package
+            } else {
+                alert('Please select a package first');
+            }
+        });
+        
+        // Option selection
+        document.querySelectorAll('.option-item').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.option-item').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                this.classList.add('selected');
+            });
+        });
+        
+        // Hint and solution toggles
+        document.getElementById('hint-btn').addEventListener('click', function() {
+            document.querySelector('.hint-panel').style.display = 'block';
+        });
+        
+        document.getElementById('solution-btn').addEventListener('click', function() {
+            document.querySelector('.solution-panel').style.display = 'block';
+        });
+        
+        // Next question button
+        document.getElementById('next-btn').addEventListener('click', function() {
+            // In a real implementation, we would load the next question
+            alert('Loading next question...');
+        });
+        
+        // Settings functionality
+        document.getElementById('export-data').addEventListener('click', function() {
+            alert('Preparing your data for export...');
+            // In a real implementation, we would export user progress data
+        });
+        
+        document.getElementById('reset-data').addEventListener('click', function() {
+            if (confirm('Are you sure you want to reset all your progress data? This cannot be undone.')) {
+                alert('All data has been reset');
+                // In a real implementation, we would clear IndexedDB
+            }
+        });
+        
+        // Simulate loading packages (in a real app, this would come from IndexedDB)
+        window.addEventListener('load', function() {
+            // This is just simulation - in a real app we would load from IndexedDB
+            console.log('App loaded successfully');
+        });
+    </script>
+</body>
+</html>

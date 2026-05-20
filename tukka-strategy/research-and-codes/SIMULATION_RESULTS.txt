@@ -1,0 +1,251 @@
+================================================================================
+ COMPREHENSIVE JEE ADVANCED TUKKA SIMULATION
+ 100,000 Monte Carlo trials per strategy
+================================================================================
+
+  Exam structure assumed per paper:
+    Single MCQ: 4/subj × 3 subj = 12 (±3/−1)
+    Paragraph:  3/subj × 3 subj = 9  (±3/−1)
+    Multi:      4/subj × 3 subj = 12 (±4/+1/−2)
+    Numerical:  6/subj × 3 subj = 18 (±3/0)
+    Total: 51 questions per paper
+
+  Running 100,000 simulations per strategy...
+
+██████████████████████████████████████████████████████████████████████
+ STRATEGY: SKIP EVERYTHING (baseline)
+██████████████████████████████████████████████████████████████████████
+
+  Score distribution (both papers combined, out of 360):
+    Mean:   0.0
+    Median: 0.0
+    StdDev: 0.0
+    Range:  [0, 0]
+    P 5:    0
+    P10:    0
+    P25:    0
+    P50:    0
+    P75:    0
+    P90:    0
+    P95:    0
+
+  Score distribution:
+    -100 to    0: 100.0%  ██████████████████████████████████████████████████
+       1 to   10:   0.0%  
+      11 to   20:   0.0%  
+      21 to   30:   0.0%  
+      31 to   40:   0.0%  
+      41 to   50:   0.0%  
+      51 to   60:   0.0%  
+      61 to   80:   0.0%  
+      81 to  100:   0.0%  
+     101 to  150:   0.0%  
+
+  Probability of qualifying (SC category):
+    2019 cutoff (65 agg, 6.2/subj): 0.0%
+    2020 cutoff (35 agg, 3.3/subj): 0.0%
+    2021 cutoff (31 agg, 3.0/subj): 0.0%
+    2022 cutoff (28 agg, 2.6/subj): 0.0%
+    2023 cutoff (43 agg, 4.1/subj): 0.0%
+    2024 cutoff (54 agg, 6.0/subj): 0.0%
+    2025 cutoff (63 agg, 6.0/subj): 0.0%
+
+██████████████████████████████████████████████████████████████████████
+ STRATEGY: CONSERVATIVE (only guess numericals, skip all MCQs)
+██████████████████████████████████████████████████████████████████████
+
+  Score distribution (both papers combined, out of 360):
+    Mean:   7.1
+    Median: 6.0
+    StdDev: 6.3
+    Range:  [0, 48]
+    P 5:    0
+    P10:    0
+    P25:    0
+    P50:    6
+    P75:    12
+    P90:    18
+    P95:    18
+
+  Score distribution:
+    -100 to    0:  29.7%  ██████████████
+       1 to   10:  37.2%  ██████████████████
+      11 to   20:  30.4%  ███████████████
+      21 to   30:   2.7%  █
+      31 to   40:   0.1%  
+      41 to   50:   0.0%  
+      51 to   60:   0.0%  
+      61 to   80:   0.0%  
+      81 to  100:   0.0%  
+     101 to  150:   0.0%  
+
+  Probability of qualifying (SC category):
+    2019 cutoff (65 agg, 6.2/subj): 0.0%
+    2020 cutoff (35 agg, 3.3/subj): 0.1%
+    2021 cutoff (31 agg, 3.0/subj): 0.1%
+    2022 cutoff (28 agg, 2.6/subj): 0.3%
+    2023 cutoff (43 agg, 4.1/subj): 0.0%
+    2024 cutoff (54 agg, 6.0/subj): 0.0%
+    2025 cutoff (63 agg, 6.0/subj): 0.0%
+
+██████████████████████████████████████████████████████████████████████
+ STRATEGY: RANDOM (guess everything randomly)
+██████████████████████████████████████████████████████████████████████
+
+  Score distribution (both papers combined, out of 360):
+    Mean:   -5.8
+    Median: -6.0
+    StdDev: 22.8
+    Range:  [-90, 96]
+    P 5:    -42
+    P10:    -34
+    P25:    -22
+    P50:    -6
+    P75:    10
+    P90:    24
+    P95:    32
+
+  Score distribution:
+    -100 to    0:  62.5%  ███████████████████████████████
+       1 to   10:  14.7%  ███████
+      11 to   20:  10.5%  █████
+      21 to   30:   6.4%  ███
+      31 to   40:   3.4%  █
+      41 to   50:   1.5%  
+      51 to   60:   0.6%  
+      61 to   80:   0.3%  
+      81 to  100:   0.0%  
+     101 to  150:   0.0%  
+
+  Probability of qualifying (SC category):
+    2019 cutoff (65 agg, 6.2/subj): 0.2%
+    2020 cutoff (35 agg, 3.3/subj): 1.9%
+    2021 cutoff (31 agg, 3.0/subj): 2.3%
+    2022 cutoff (28 agg, 2.6/subj): 2.5%
+    2023 cutoff (43 agg, 4.1/subj): 1.1%
+    2024 cutoff (54 agg, 6.0/subj): 0.5%
+    2025 cutoff (63 agg, 6.0/subj): 0.2%
+
+██████████████████████████████████████████████████████████████████████
+ STRATEGY: SMART (longest option for single, mark-1 for multi, guess '3' for numerical)
+██████████████████████████████████████████████████████████████████████
+
+  Score distribution (both papers combined, out of 360):
+    Mean:   14.0
+    Median: 14.0
+    StdDev: 20.8
+    Range:  [-62, 106]
+    P 5:    -20
+    P10:    -12
+    P25:    0
+    P50:    14
+    P75:    28
+    P90:    40
+    P95:    48
+
+  Score distribution:
+    -100 to    0:  27.0%  █████████████
+       1 to   10:  17.8%  ████████
+      11 to   20:  19.1%  █████████
+      21 to   30:  15.7%  ███████
+      31 to   40:  10.6%  █████
+      41 to   50:   5.9%  ██
+      51 to   60:   2.6%  █
+      61 to   80:   1.3%  
+      81 to  100:   0.1%  
+     101 to  150:   0.0%  
+
+  Probability of qualifying (SC category):
+    2019 cutoff (65 agg, 6.2/subj): 0.7%
+    2020 cutoff (35 agg, 3.3/subj): 10.4%
+    2021 cutoff (31 agg, 3.0/subj): 12.4%
+    2022 cutoff (28 agg, 2.6/subj): 13.4%
+    2023 cutoff (43 agg, 4.1/subj): 5.2%
+    2024 cutoff (54 agg, 6.0/subj): 2.5%
+    2025 cutoff (63 agg, 6.0/subj): 0.9%
+
+██████████████████████████████████████████████████████████████████████
+ SUBJECT-WISE NUMERICAL OPTIMAL GUESS
+██████████████████████████████████████████████████████████████████████
+
+  PHY (57 answers):
+    Single-digit integers (n=18):
+      2: 3 (17%)
+      3: 4 (22%)
+      4: 2 (11%)
+      5: 2 (11%)
+      6: 3 (17%)
+      8: 4 (22%)
+    → BEST GUESS for PHY: 8 (4/18=22%)
+    Median value: 4
+    Most common integers: [(8, 4), (3, 4), (6, 3), (2, 3), (5, 2)]
+
+  CHEM (56 answers):
+    Single-digit integers (n=15):
+      1: 3 (20%)
+      2: 3 (20%)
+      3: 5 (33%)
+      4: 1 (7%)
+      5: 1 (7%)
+      6: 2 (13%)
+    → BEST GUESS for CHEM: 3 (5/15=33%)
+    Median value: 6
+    Most common integers: [(3, 5), (2, 3), (1, 3), (6, 2), (18, 2)]
+
+  MATH (57 answers):
+    Single-digit integers (n=25):
+      0: 1 (4%)
+      1: 6 (24%)
+      2: 5 (20%)
+      3: 2 (8%)
+      4: 2 (8%)
+      5: 4 (16%)
+      6: 2 (8%)
+      8: 3 (12%)
+    → BEST GUESS for MATH: 1 (6/25=24%)
+    Median value: 4
+    Most common integers: [(1, 6), (2, 5), (5, 4), (8, 3), (6, 2)]
+
+██████████████████████████████████████████████████████████████████████
+ THE 3-MARKS-PER-SUBJECT GUARANTEE ANALYSIS
+██████████████████████████████████████████████████████████████████████
+
+  Per subject per paper you have:
+    6 numerical questions × +3/0 = your SAFEST source of marks
+    
+  With 6 numericals and guessing "3" (P=6.5% each):
+    Expected per paper per subject = 6 × 0.065 × 3 = 1.17 marks
+    Over both papers per subject   = 2.34 marks
+    
+  Probability of getting AT LEAST 1 numerical right per subject (12 questions over 2 papers):
+    P(≥1) = 1 - (1-0.065)^12 = 1 - 0.935^12 = 1 - 0.447 = 55.3%
+    
+  Probability of getting 0 numericals right in a subject:
+    P(0) = 0.935^12 = 44.7%
+    
+  If you get 1 right = 3 marks. You need ≥3 per subject to qualify.
+  
+  PROBLEM: 44.7% chance of getting 0 in a subject purely from numericals.
+  
+  SOLUTION: You ALSO attempt single MCQs.
+    - 7 single MCQs per subject per paper = 14 over both papers
+    - Even at 25% random accuracy: 3.5 right × +3 = 10.5 marks
+      BUT: 10.5 wrong × -1 = -10.5 marks → net ≈ 0
+    - At 31% smart accuracy: 4.34 right = 13 marks, 9.66 wrong = -9.66 → net ≈ +3.4
+    
+  COMBINED (numerical + smart single MCQ):
+    Per subject over both papers:
+      Numerical contribution: 2.34 marks (expected)
+      Single MCQ contribution: ~3.4 marks (expected with smart strategy)
+      Total expected per subject: ~5.7 marks
+      
+  The per-subject minimum for most years is 3-18 marks.
+  At 5.7 expected per subject, we exceed 3 marks in most scenarios.
+
+  Simulation: P(all 3 subjects ≥ 3 marks) = 22.7%
+  P(all 3 subjects ≥  3 marks) = 23.2%
+  P(all 3 subjects ≥  5 marks) = 19.2%
+  P(all 3 subjects ≥  8 marks) = 6.5%
+  P(all 3 subjects ≥ 10 marks) = 2.5%
+  P(all 3 subjects ≥ 15 marks) = 0.1%
+  P(all 3 subjects ≥ 18 marks) = 0.0%

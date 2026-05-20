@@ -1,0 +1,78 @@
+================================================================================
+ HYBRID STRATEGY: What if you actually know SOME questions?
+================================================================================
+
+──────────────────────────────────────────────────────────────────────
+  KNOWN per subject per paper: 0 questions (0 total across exam)
+  Mean: 13.3  Median: 13  P5-P95: [-11, 38]
+    2020 (35 agg, 3/subj): 5.7% qualify
+    2022 (28 agg, 3/subj): 10.5% qualify
+    2023 (43 agg, 4/subj): 1.8% qualify
+    2024 (54 agg, 6/subj): 0.3% qualify
+    2025 (63 agg, 6/subj): 0.1% qualify
+
+──────────────────────────────────────────────────────────────────────
+  KNOWN per subject per paper: 1 questions (6 total across exam)
+  Mean: 29.9  Median: 30  P5-P95: [6, 54]
+    2020 (35 agg, 3/subj): 30.0% qualify
+    2022 (28 agg, 3/subj): 42.4% qualify
+    2023 (43 agg, 4/subj): 15.1% qualify
+    2024 (54 agg, 6/subj): 5.1% qualify
+    2025 (63 agg, 6/subj): 1.4% qualify
+
+──────────────────────────────────────────────────────────────────────
+  KNOWN per subject per paper: 2 questions (12 total across exam)
+  Mean: 45.3  Median: 45  P5-P95: [22, 69]
+    2020 (35 agg, 3/subj): 68.5% qualify
+    2022 (28 agg, 3/subj): 78.2% qualify
+    2023 (43 agg, 4/subj): 50.1% qualify
+    2024 (54 agg, 6/subj): 26.9% qualify
+    2025 (63 agg, 6/subj): 11.6% qualify
+
+──────────────────────────────────────────────────────────────────────
+  KNOWN per subject per paper: 3 questions (18 total across exam)
+  Mean: 58.2  Median: 58  P5-P95: [34, 82]
+    2020 (35 agg, 3/subj): 89.1% qualify
+    2022 (28 agg, 3/subj): 92.8% qualify
+    2023 (43 agg, 4/subj): 79.8% qualify
+    2024 (54 agg, 6/subj): 60.1% qualify
+    2025 (63 agg, 6/subj): 37.7% qualify
+
+──────────────────────────────────────────────────────────────────────
+  KNOWN per subject per paper: 5 questions (30 total across exam)
+  Mean: 72.7  Median: 73  P5-P95: [45, 100]
+    2020 (35 agg, 3/subj): 95.0% qualify
+    2022 (28 agg, 3/subj): 96.4% qualify
+    2023 (43 agg, 4/subj): 92.0% qualify
+    2024 (54 agg, 6/subj): 84.7% qualify
+    2025 (63 agg, 6/subj): 72.1% qualify
+
+──────────────────────────────────────────────────────────────────────
+  KNOWN per subject per paper: 8 questions (48 total across exam)
+  Mean: 76.6  Median: 77  P5-P95: [47, 106]
+    2020 (35 agg, 3/subj): 95.3% qualify
+    2022 (28 agg, 3/subj): 96.5% qualify
+    2023 (43 agg, 4/subj): 92.7% qualify
+    2024 (54 agg, 6/subj): 86.6% qualify
+    2025 (63 agg, 6/subj): 76.5% qualify
+
+──────────────────────────────────────────────────────────────────────
+  KNOWN per subject per paper: 10 questions (60 total across exam)
+  Mean: 76.7  Median: 77  P5-P95: [47, 107]
+    2020 (35 agg, 3/subj): 95.1% qualify
+    2022 (28 agg, 3/subj): 96.4% qualify
+    2023 (43 agg, 4/subj): 92.5% qualify
+    2024 (54 agg, 6/subj): 86.7% qualify
+    2025 (63 agg, 6/subj): 76.5% qualify
+
+
+██████████████████████████████████████████████████████████████████████
+ STRATEGY COMPARISON: SKIP MULTI-CORRECT vs ATTEMPT MULTI-CORRECT
+██████████████████████████████████████████████████████████████████████
+
+  Skip Multi:    Mean=17.1, Median=17
+  Attempt Multi: Mean=12.9, Median=13
+  2020: Skip=7.5%  Attempt=5.4%  → SKIP better
+  2022: Skip=13.0%  Attempt=10.2%  → SKIP better
+  2023: Skip=2.0%  Attempt=1.6%  → SKIP better
+  2025: Skip=0.0%  Attempt=0.1%  → ATTEMPT better

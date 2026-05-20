@@ -1,0 +1,228 @@
+# JEE Prep Web App - Context Document
+
+## Overview
+This document serves as the technical specification for building a web-based JEE preparation application that works entirely offline with AI-processed content packages.
+
+## AI Processing Capabilities
+
+### Input Processing
+- **PDF Parsing**: Complete extraction of text and images from educational PDFs
+- **Multi-file Correlation**: Link questions, solutions, and hints across separate documents
+- **Image Analysis**: Visual content description and spatial relationship mapping
+- **Content Structuring**: Organization into standardized JSON formats
+
+### Output Generation
+- **Structured Question Data**: Questions with options, answers, and metadata
+- **Solution Details**: Step-by-step explanations with formula references
+- **Hint Systems**: Progressive guidance for difficult problems
+- **Image Descriptions**: Textual representation of diagrams when images unavailable
+- **Cross-referencing**: Links between related content across documents
+
+## File Structure (.wbp - Workbook Package)
+
+### Package Contents
+```
+workbook_name.wbp (ZIP archive)
+├── manifest.json          # Package metadata and version info
+├── questions.json         # Main question database
+├── solutions.json         # Detailed solutions
+├── hints.json            # Progressive hints
+├── metadata.json         # Source and categorization data
+├── assets/               # Optional: Actual image files
+│   ├── diagrams/
+│   └── figures/
+└── cross_references.json # Mapping between Qs, solutions, hints
+```
+
+### manifest.json
+```json
+{
+  "version": "1.0",
+  "title": "Work, Energy and Power",
+  "subject": "Physics",
+  "chapter": "Mechanics",
+  "source": "Resonance DPP",
+  "total_questions": 150,
+  "date_created": "2024-01-15",
+  "processor_model": "Qwen3-Coder-480B",
+  "package_id": "phy_wep_res_001"
+}
+```
+
+### questions.json Structure
+```json
+[
+  {
+    "id": "phy_wep_q001",
+    "question_number": "1",
+    "text": "Question text here...",
+    "image_description": "Description of any diagrams or figures",
+    "options": ["A) Option 1", "B) Option 2", "C) Option 3", "D) Option 4"],
+    "correct_answer": "B",
+    "topic": "Work Done by Constant Force",
+    "subtopic": "Friction Work",
+    "difficulty": "medium",  // easy/medium/hard
+    "tags": ["work", "friction", "mechanics"],
+    "source_reference": "Exercise 1-A, Q1",
+    "related_questions": ["phy_wep_q002", "phy_wep_q005"]
+  }
+]
+```
+
+### solutions.json Structure
+```json
+[
+  {
+    "question_id": "phy_wep_q001",
+    "steps": [
+      {
+        "step_number": 1,
+        "description": "Identify the forces acting on the block",
+        "formula": "F_friction = μ × N"
+      },
+      {
+        "step_number": 2,
+        "description": "Calculate work done by friction",
+        "formula": "W = F × d × cos(θ)"
+      }
+    ],
+    "final_answer": "Option B",
+    "key_concepts": ["Work-Energy Theorem", "Friction Forces"],
+    "common_mistakes": "Forgetting the negative sign for friction work",
+    "image_description": "Free body diagram showing all forces"
+  }
+]
+```
+
+### hints.json Structure
+```json
+[
+  {
+    "question_id": "phy_wep_q001",
+    "progressive_hints": [
+      {
+        "level": 1,
+        "text": "What forces are doing work in this scenario?"
+      },
+      {
+        "level": 2,
+        "text": "Remember that friction always opposes motion"
+      },
+      {
+        "level": 3,
+        "text": "Work done by friction is negative because force and displacement are opposite"
+      }
+    ],
+    "conceptual_hint": "Work done by friction = -μmg × distance"
+  }
+]
+```
+
+## Web App Architecture
+
+### Core Components
+1. **Package Manager**: Handles .wbp file import/export
+2. **Question Display**: Renders questions with images/diagrams
+3. **Practice Engine**: Manages timed sessions and progress tracking
+4. **Analytics Dashboard**: Performance insights and statistics
+5. **Local Storage**: IndexedDB for offline data persistence
+
+### State Management
+```javascript
+// Global application state
+const appState = {
+  packages: [],           // Imported .wbp packages
+  questions: [],          // All available questions
+  currentSession: null,   // Active practice session
+  userProgress: {},       // Question attempt history
+  settings: {}            // User preferences
+};
+```
+
+### Data Flow Logic
+1. **Import**: User drops .wbp file → App extracts JSON data → Data stored in IndexedDB
+2. **Browse**: Query IndexedDB for questions by topic/difficulty/tags
+3. **Practice**: Select questions → Create session → Track performance
+4. **Review**: Access solutions/hints → Update progress tracking
+
+## UI/UX Requirements
+
+### Main Views
+1. **Dashboard**: Package overview and quick access
+2. **Question Bank**: Filterable/searchable question library
+3. **Practice Mode**: Timed question sessions
+4. **Review Center**: Solution viewing and performance analysis
+5. **Settings**: Configuration and export options
+
+### Interaction Patterns
+- **Progressive Disclosure**: Hints revealed step-by-step
+- **Immediate Feedback**: Answer validation with explanation
+- **Performance Tracking**: Real-time accuracy and timing metrics
+- **Adaptive Difficulty**: Question selection based on user performance
+
+## Technical Implementation Guidelines
+
+### Storage Strategy
+- **IndexedDB**: Primary storage for questions, progress, and settings
+- **LocalStorage**: User preferences and temporary session data
+- **File API**: Direct .wbp package handling without server
+
+### Rendering Logic
+```javascript
+function renderQuestion(question) {
+  // Display question text
+  // Render options with proper styling
+  // Show image description or actual image
+  // Provide hint/solution toggle buttons
+  // Track interaction timing
+}
+
+function showSolution(questionId) {
+  // Retrieve solution data
+  // Display step-by-step explanation
+  // Highlight key formulas
+  // Show related concepts
+}
+```
+
+### Performance Optimization
+- **Lazy Loading**: Load questions on-demand
+- **Caching**: Store frequently accessed data
+- **Batch Operations**: Efficient database queries
+- **Web Workers**: Offload heavy processing when needed
+
+## Integration Points
+
+### Package Processing Workflow
+1. **Validation**: Check .wbp file integrity and version compatibility
+2. **Extraction**: Parse JSON files and validate structure
+3. **Storage**: Save to IndexedDB with proper indexing
+4. **Indexing**: Create searchable indices for topics/tags
+
+### Error Handling
+- **Corrupted Packages**: Graceful degradation with error reporting
+- **Missing Data**: Fallback mechanisms for incomplete content
+- **User Guidance**: Clear error messages and recovery steps
+
+## Future Enhancement Opportunities
+
+### Advanced Features
+- **Spaced Repetition**: Intelligent question scheduling
+- **Weak Area Detection**: Automated topic recommendation
+- **Collaborative Features**: Sharing and community features
+- **Mobile Optimization**: Responsive design and touch interactions
+
+### Analytics Expansion
+- **Learning Pattern Analysis**: Identify user strengths/weaknesses
+- **Time Management Insights**: Optimize practice session efficiency
+- **Concept Mastery Tracking**: Measure understanding progression
+
+## Security and Privacy Considerations
+
+### Data Protection
+- **Local Only**: No internet transmission of user data
+- **Encryption**: Optional encryption for sensitive content
+- **Access Control**: User authentication for multi-user scenarios
+- **Backup Management**: Safe export/import of user progress
+
+This architecture ensures a robust, offline-capable application that leverages AI-processed educational content while providing an excellent user experience for JEE preparation.

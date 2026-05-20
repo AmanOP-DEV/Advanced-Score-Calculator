@@ -1,0 +1,763 @@
+First, let's update the manifest.json to include the blocking feature permissions:
+
+{
+  "manifest_version": 3,
+  "name": "FocusLog – Active Time Tracker",
+  "version": "5.4.0",
+  "description": "Tracks how long you actively spend on websites, PDFs, and local files — not just open tabs.",
+  "permissions": [
+    "tabs",
+    "storage",
+    "idle",
+    "alarms",
+    "contextMenus",
+    "notifications",
+    "declarativeNetRequest",
+    "webNavigation"
+  ],
+  "host_permissions": [
+    "<all_urls>",
+    "https://firestore.googleapis.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_idle",
+      "all_frames": true
+    }
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "declarative_net_request": {
+    "rule_resources": [
+      {
+        "id": "ruleset_1",
+        "enabled": true,
+        "path": "block_rules.json"
+      }
+    ]
+  }
+}
+
+
+
+Now, let's create a new file block_rules.json for the blocking rules:
+
+[
+  {
+    "id": 1,
+    "priority": 1,
+    "action": {
+      "type": "redirect",
+      "redirect": {
+        "extensionPath": "/blocked.html"
+      }
+    },
+    "condition": {
+      "urlFilter": "*://*/*",
+      "resourceTypes": ["main_frame"]
+    }
+  }
+]
+
+
+Let's create a blocked.html page:
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Website Blocked - FocusLog</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
+    .container {
+      max-width: 500px;
+      padding: 2rem;
+      background: #161b22;
+      border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .icon {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+      color: #f85149;
+    }
+    h1 {
+      margin: 0 0 1rem 0;
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+    p {
+      margin: 0 0 1.5rem 0;
+      color: #7d8590;
+      line-height: 1.5;
+    }
+    .blocked-url {
+      background: rgba(248, 81, 73, 0.1);
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 0.9rem;
+      margin: 1rem 0;
+      word-break: break-all;
+    }
+    button {
+      background: #7c3aed;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #6d28d9;
+    }
+    .time-info {
+      font-size: 0.9rem;
+      color: #7d8590;
+      margin-top: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">🚫</div>
+    <h1>Website Blocked</h1>
+    <p>This website has been blocked by FocusLog to help you stay focused.</p>
+    <div class="blocked-url" id="blockedUrl">Loading...</div>
+    <button id="unblockBtn">Unblock for 10 minutes</button>
+    <div class="time-info" id="timeInfo"></div>
+  </div>
+  
+  <script>
+    // Get the blocked URL from query parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const blockedUrl = urlParams.get('url') || 'Unknown website';
+    document.getElementById('blockedUrl').textContent = blockedUrl;
+    
+    // Display current time spent on this site
+    chrome.storage.local.get(['focuslog_blocked_sites'], function(result) {
+      const blockedSites = result.focuslog_blocked_sites || {};
+      const siteKey = getSiteKey(blockedUrl);
+      const timeSpent = blockedSites[siteKey] ? formatTime(blockedSites[siteKey].time) : '0s';
+      document.getElementById('timeInfo').textContent = `Time spent on this site: ${timeSpent}`;
+    });
+    
+    function getSiteKey(url) {
+      try {
+        const u = new URL(url);
+        return u.hostname.replace(/^www\./, '');
+      } catch {
+        return url;
+      }
+    }
+    
+    function formatTime(ms) {
+      const seconds = Math.floor(ms / 1000);
+      const minutes = Math.floor(seconds / 60);
+      const hours = Math.floor(minutes / 60);
+      
+      if (hours > 0) {
+        return `${hours}h ${minutes % 60}m ${seconds % 60}s`;
+      } else if (minutes > 0) {
+        return `${minutes}m ${seconds % 60}s`;
+      } else {
+        return `${seconds}s`;
+      }
+    }
+    
+    // Unblock button functionality
+    document.getElementById('unblockBtn').addEventListener('click', function() {
+      // Temporarily unblock for 10 minutes
+      const unblockTime = Date.now() + 10 * 60 * 1000; // 10 minutes
+      
+      chrome.storage.local.get(['focuslog_temp_unblocks'], function(result) {
+        const tempUnblocks = result.focuslog_temp_unblocks || {};
+        tempUnblocks[getSiteKey(blockedUrl)] = unblockTime;
+        
+        chrome.storage.local.set({ focuslog_temp_unblocks: tempUnblocks }, function() {
+          // Redirect to the blocked URL
+          window.location.href = blockedUrl;
+        });
+      });
+    });
+  </script>
+</body>
+</html>
+
+Now, let's update the background.js to include the blocking functionality:
+
+// Add this to your existing background.js
+
+// Blocking feature variables
+let blockedSites = {};
+let tempUnblocks = {};
+let blockRules = [];
+
+// Initialize blocking feature
+function initBlocking() {
+  chrome.storage.local.get(['focuslog_blocked_sites', 'focuslog_temp_unblocks'], function(result) {
+    blockedSites = result.focuslog_blocked_sites || {};
+    tempUnblocks = result.focuslog_temp_unblocks || {};
+    
+    // Clean up expired temporary unblocks
+    const now = Date.now();
+    for (const site in tempUnblocks) {
+      if (tempUnblocks[site] < now) {
+        delete tempUnblocks[site];
+      }
+    }
+    
+    chrome.storage.local.set({ focuslog_temp_unblocks: tempUnblocks });
+    
+    // Update blocking rules
+    updateBlockRules();
+  });
+  
+  // Check for expired temporary unblocks periodically
+  setInterval(checkTempUnblocks, 60000); // Check every minute
+}
+
+// Check and clean up expired temporary unblocks
+function checkTempUnblocks() {
+  const now = Date.now();
+  let updated = false;
+  
+  for (const site in tempUnblocks) {
+    if (tempUnblocks[site] < now) {
+      delete tempUnblocks[site];
+      updated = true;
+    }
+  }
+  
+  if (updated) {
+    chrome.storage.local.set({ focuslog_temp_unblocks: tempUnblocks });
+    updateBlockRules();
+  }
+}
+
+// Update declarativeNetRequest rules
+function updateBlockRules() {
+  // Create rules for blocked sites
+  const rules = [];
+  let ruleId = 1;
+  
+  for (const site in blockedSites) {
+    // Skip if temporarily unblocked
+    if (tempUnblocks[site] && tempUnblocks[site] > Date.now()) {
+      continue;
+    }
+    
+    rules.push({
+      id: ruleId++,
+      priority: 1,
+      action: {
+        type: "redirect",
+        redirect: {
+          extensionPath: "/blocked.html"
+        }
+      },
+      condition: {
+        urlFilter: `*://*.${site}/*`,
+        resourceTypes: ["main_frame"]
+      }
+    });
+  }
+  
+  // Update rules
+  chrome.declarativeNetRequest.updateDynamicRules({
+    removeRuleIds: blockRules.map(rule => rule.id),
+    addRules: rules
+  }, () => {
+    blockRules = rules;
+  });
+}
+
+// Add a site to blocked list
+function addBlockedSite(site) {
+  const siteKey = siteKeyFromUrl(site);
+  blockedSites[siteKey] = {
+    url: site,
+    added: Date.now(),
+    time: 0
+  };
+  
+  chrome.storage.local.set({ focuslog_blocked_sites: blockedSites }, updateBlockRules);
+}
+
+// Remove a site from blocked list
+function removeBlockedSite(site) {
+  const siteKey = siteKeyFromUrl(site);
+  delete blockedSites[siteKey];
+  
+  chrome.storage.local.set({ focuslog_blocked_sites: blockedSites }, updateBlockRules);
+}
+
+// Helper function to extract site key from URL
+function siteKeyFromUrl(url) {
+  try {
+    const u = new URL(url);
+    return u.hostname.replace(/^www\./, '');
+  } catch {
+    return url;
+  }
+}
+
+// Track time spent on blocked sites
+chrome.webNavigation.onCompleted.addListener(function(details) {
+  if (details.frameId === 0) { // Main frame only
+    const siteKey = siteKeyFromUrl(details.url);
+    
+    // Check if this site is blocked
+    if (blockedSites[siteKey] && !(tempUnblocks[siteKey] && tempUnblocks[siteKey] > Date.now())) {
+      // Increment time spent on blocked site
+      blockedSites[siteKey].time += 1000; // Assuming 1 second intervals
+      chrome.storage.local.set({ focuslog_blocked_sites: blockedSites });
+    }
+  }
+}, {url: [{schemes: ['http', 'https']}]}); // Listen for all HTTP/HTTPS navigation
+
+// Initialize blocking when extension starts
+chrome.runtime.onStartup.addListener(initBlocking);
+chrome.runtime.onInstalled.addListener(initBlocking);
+
+// Add message listener for blocking functionality
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+  if (request.type === "ADD_BLOCKED_SITE") {
+    addBlockedSite(request.site);
+    sendResponse({ success: true });
+    return true;
+  }
+  
+  if (request.type === "REMOVE_BLOCKED_SITE") {
+    removeBlockedSite(request.site);
+    sendResponse({ success: true });
+    return true;
+  }
+  
+  if (request.type === "GET_BLOCKED_SITES") {
+    sendResponse({ blockedSites: blockedSites });
+    return true;
+  }
+  
+  if (request.type === "TEMP_UNBLOCK") {
+    const siteKey = siteKeyFromUrl(request.site);
+    const unblockTime = Date.now() + (request.duration || 10 * 60 * 1000); // Default 10 minutes
+    
+    tempUnblocks[siteKey] = unblockTime;
+    chrome.storage.local.set({ focuslog_temp_unblocks: tempUnblocks }, updateBlockRules);
+    
+    sendResponse({ success: true });
+    return true;
+  }
+});
+
+
+Now, let's enhance the popup.html with blocking features and improved animations:
+
+<!-- Add this to your existing popup.html in the settings panel -->
+
+<!-- Add after the existing settings groups -->
+<div class="settings-group">
+  <div class="settings-group-title">Website Blocking</div>
+  <div class="settings-row">
+    <div class="settings-row-info">
+      <span class="settings-row-label">Blocked Websites</span>
+      <span class="settings-row-sub">Prevent access to distracting sites</span>
+    </div>
+    <button class="settings-action-btn" id="manageBlockedBtn">Manage</button>
+  </div>
+</div>
+
+<!-- Add this modal for blocking management -->
+<div class="modal hidden" id="blockingModal">
+  <div class="modal-overlay"></div>
+  <div class="modal-content" style="width: 500px; max-width: 90vw;">
+    <div class="modal-header">
+      <span class="modal-title">Website Blocking</span>
+      <button class="modal-close" id="blockingModalClose">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="block-add-section">
+        <div class="input-group">
+          <input type="text" id="blockUrlInput" placeholder="Enter website URL (e.g., facebook.com)" class="form-input">
+          <button class="btn-primary" id="addBlockBtn">Block</button>
+        </div>
+        <div class="help-text">Tip: You can temporarily unblock sites for 10 minutes from the blocked page</div>
+      </div>
+      
+      <div class="blocked-sites-list" id="blockedSitesList">
+        <div class="empty-state">
+          <span class="empty-icon">🔒</span>
+          <span class="empty-text">No blocked websites</span>
+          <span class="empty-sub">Add websites to block them</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+Now, let's add enhanced animations and insights to your reports in popup.js:
+
+// Add these enhancements to your existing popup.js
+
+// Enhanced animations for reports
+function animateValue(element, start, end, duration) {
+  if (start === end) return;
+  
+  const range = end - start;
+  const increment = end > start ? 1 : -1;
+  const stepTime = Math.abs(Math.floor(duration / range));
+  const startTime = Date.now();
+  
+  const timer = setInterval(() => {
+    const now = Date.now();
+    const progress = Math.min((now - startTime) / duration, 1);
+    const value = Math.floor(progress * (end - start) + start);
+    
+    element.textContent = value;
+    
+    if (progress >= 1) {
+      clearInterval(timer);
+      element.textContent = end;
+    }
+  }, stepTime || 1);
+}
+
+// Enhanced insights for reports
+function generateInsights() {
+  const insights = [];
+  
+  // Calculate insights based on user data
+  chrome.storage.local.get(null, function(data) {
+    const dayKeys = Object.keys(data).filter(k => k.startsWith('day_'));
+    
+    if (dayKeys.length === 0) {
+      insights.push({
+        type: "info",
+        title: "Getting Started",
+        message: "Track your browsing to see insights about your habits"
+      });
+      displayInsights(insights);
+      return;
+    }
+    
+    // Calculate total time across all days
+    let totalTime = 0;
+    let mostActiveDay = null;
+    let mostActiveDayTime = 0;
+    let siteTotals = {};
+    
+    dayKeys.forEach(dayKey => {
+      const dayData = data[dayKey];
+      Object.values(dayData).forEach(entry => {
+        if (!entry.isPomoMarker) {
+          totalTime += entry.totalMs || 0;
+          
+          // Track most active day
+          if ((entry.totalMs || 0) > mostActiveDayTime) {
+            mostActiveDayTime = entry.totalMs || 0;
+            mostActiveDay = dayKey.replace('day_', '');
+          }
+          
+          // Track site totals
+          const siteKey = entry.key;
+          siteTotals[siteKey] = (siteTotals[siteKey] || 0) + (entry.totalMs || 0);
+        }
+      });
+    });
+    
+    // Find most time-consuming site
+    let topSite = null;
+    let topSiteTime = 0;
+    Object.entries(siteTotals).forEach(([site, time]) => {
+      if (time > topSiteTime) {
+        topSiteTime = time;
+        topSite = site;
+      }
+    });
+    
+    // Generate insights
+    if (totalTime > 0) {
+      const hours = Math.floor(totalTime / (1000 * 60 * 60));
+      insights.push({
+        type: "achievement",
+        title: "Total Tracking Time",
+        message: `You've tracked ${hours} hours of browsing time!`
+      });
+    }
+    
+    if (mostActiveDay) {
+      insights.push({
+        type: "info",
+        title: "Most Active Day",
+        message: `Your most productive day was ${mostActiveDay}`
+      });
+    }
+    
+    if (topSite) {
+      const siteHours = Math.floor(topSiteTime / (1000 * 60 * 60));
+      insights.push({
+        type: "warning",
+        title: "Time Investment",
+        message: `You've spent ${siteHours} hours on ${topSite} - consider if this aligns with your goals`
+      });
+    }
+    
+    // Add blocking insight if applicable
+    if (data.focuslog_blocked_sites && Object.keys(data.focuslog_blocked_sites).length > 0) {
+      const blockedCount = Object.keys(data.focuslog_blocked_sites).length;
+      insights.push({
+        type: "success",
+        title: "Distraction Management",
+        message: `You've blocked ${blockedCount} distracting websites - great job staying focused!`
+      });
+    }
+    
+    displayInsights(insights);
+  });
+}
+
+function displayInsights(insights) {
+  const container = document.getElementById('insightsContainer');
+  if (!container) return;
+  
+  if (insights.length === 0) {
+    container.innerHTML = '<div class="insight-card empty"><p>No insights available yet</p></div>';
+    return;
+  }
+  
+  container.innerHTML = insights.map(insight => `
+    <div class="insight-card ${insight.type}">
+      <div class="insight-icon">
+        ${insight.type === 'achievement' ? '🏆' : 
+          insight.type === 'warning' ? '⚠️' : 
+          insight.type === 'success' ? '✅' : 'ℹ️'}
+      </div>
+      <div class="insight-content">
+        <h4>${insight.title}</h4>
+        <p>${insight.message}</p>
+      </div>
+    </div>
+  `).join('');
+}
+
+// Add CSS for insights and animations
+function addEnhancedStyles() {
+  const style = document.createElement('style');
+  style.textContent = `
+    .insights-section {
+      margin: 20px 0;
+      padding: 15px;
+      background: var(--bg3);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    
+    .insights-header {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+    
+    .insights-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .insight-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 8px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      animation: fadeIn 0.3s ease-out;
+    }
+    
+    .insight-card.achievement {
+      border-left: 3px solid #3fb950;
+    }
+    
+    .insight-card.warning {
+      border-left: 3px solid #f85149;
+    }
+    
+    .insight-card.success {
+      border-left: 3px solid #3fb950;
+    }
+    
+    .insight-card.info {
+      border-left: 3px solid #58a6ff;
+    }
+    
+    .insight-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    
+    .insight-content h4 {
+      margin: 0 0 4px 0;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    
+    .insight-content p {
+      margin: 0;
+      font-size: 12px;
+      color: var(--text-md);
+      line-height: 1.4;
+    }
+    
+    .block-add-section {
+      margin-bottom: 20px;
+    }
+    
+    .input-group {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    
+    .form-input {
+      flex: 1;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: var(--bg2);
+      color: var(--text);
+      font-family: inherit;
+    }
+    
+    .form-input:focus {
+      outline: none;
+      border-color: var(--violet-text);
+    }
+    
+    .help-text {
+      font-size: 11px;
+      color: var(--text-dim);
+      margin-top: 4px;
+    }
+    
+    .blocked-site-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      background: var(--bg2);
+      border-radius: 6px;
+      margin-bottom: 8px;
+      animation: slideIn 0.2s ease-out;
+    }
+    
+    .blocked-site-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .blocked-site-url {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+    }
+    
+    .blocked-site-actions {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .btn-icon {
+      background: none;
+      border: none;
+      color: var(--text-dim);
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .btn-icon:hover {
+      background: var(--bg3);
+      color: var(--text);
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-10px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    
+    .modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    
+    .modal.hidden {
+      display: none;
+    }
+    
+    .modal-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+    }
+    
+    .modal-content {
+      position: relative;
+      background: var(--bg);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 3

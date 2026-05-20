@@ -1,0 +1,72 @@
+================================================================================
+ OPTION CONTENT SIMILARITY ANALYSIS v2
+================================================================================
+
+  2017 P1: 0 questions with 4 options, 0 answers found
+
+  2017 P2: 0 questions with 4 options, 0 answers found
+
+  2018 P1: 30 questions with 4 options, 0 answers found
+
+  2018 P2: 30 questions with 4 options, 0 answers found
+
+  2019 P1: 0 questions with 4 options, 0 answers found
+
+  2019 P2: 0 questions with 4 options, 0 answers found
+
+  2020 P1: 36 questions with 4 options, 0 answers found
+
+  2020 P2: 18 questions with 4 options, 0 answers found
+
+  2021 P1: 30 questions with 4 options, 0 answers found
+
+  2021 P2: 28 questions with 4 options, 0 answers found
+
+  2022 P1: 26 questions with 4 options, 0 answers found
+
+  2022 P2: 27 questions with 4 options, 0 answers found
+
+  2023 P1: 33 questions with 4 options, 0 answers found
+
+  2023 P2: 21 questions with 4 options, 0 answers found
+
+  2024 P1: 33 questions with 4 options, 0 answers found
+
+  2024 P2: 21 questions with 4 options, 0 answers found
+
+  2025 P1: 30 questions with 4 options, 46 answers found
+
+  2025 P2: 24 questions with 4 options, 47 answers found
+
+██████████████████████████████████████████████████████████████████████
+ KEY FINDINGS
+██████████████████████████████████████████████████████████████████████
+
+  OPTION LENGTH (characters):
+    Correct options: avg=37.5, median=30
+    Wrong options:   avg=30.0, median=19
+    Ratio: correct is 1.25x the length of wrong
+
+  LENGTH BUCKETS:
+         Very short 0-10: correct= 22.4%  wrong= 34.5%
+             Short 11-25: correct= 20.4%  wrong= 24.1%
+            Medium 26-50: correct= 38.8%  wrong= 24.1%
+             Long 51-100: correct=  8.2%  wrong= 12.6%
+          Very long 101+: correct= 10.2%  wrong=  4.6%
+
+  CORRECT ANSWER'S LENGTH-RANK POSITION (1=shortest, 4=longest):
+  n=49
+    1 (  SHORTEST opt):  10 ( 20.4%)  ██████████
+    2 (  2nd shortest):  10 ( 20.4%)  ██████████
+    3 (   2nd longest):  14 ( 28.6%)  ██████████████
+    4 (   LONGEST opt):  15 ( 30.6%)  ███████████████
+
+  INTERPRETATION:
+    → The longest option is correct 31% of the time
+    → The shortest option is correct only 20% of the time
+
+  OPTION LENGTH STATISTICS ACROSS ALL YEARS:
+    Position 1 (by length): avg=24.4 chars, n=387
+    Position 2 (by length): avg=29.2 chars, n=387
+    Position 3 (by length): avg=34.7 chars, n=387
+    Position 4 (by length): avg=51.0 chars, n=387
