@@ -695,3 +695,28 @@ function loadStateFromLocalStorage() {
 // Global Initialization
 initQuestionStructures();
 loadStateFromLocalStorage();
+
+// Fetch latest keys asynchronously from live repository keys.json
+async function loadRemoteKeys() {
+  try {
+    const response = await fetch('./keys.json');
+    if (response.ok) {
+      const remoteKeys = await response.json();
+      if (remoteKeys.paper1) {
+        state.instituteKeys.paper1 = remoteKeys.paper1;
+      }
+      if (remoteKeys.paper2) {
+        state.instituteKeys.paper2 = remoteKeys.paper2;
+      }
+      console.log('Successfully fetched latest keys from live repository!');
+      saveStateToLocalStorage();
+      if (typeof updateUI === 'function') {
+        updateUI();
+      }
+    }
+  } catch (e) {
+    console.warn('Could not fetch keys.json. Using local/cached keys instead.', e);
+  }
+}
+loadRemoteKeys();
+
